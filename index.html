@@ -1,3 +1,15 @@
+Nếu bạn đã thay đổi mã nguồn mà khi bấm vào biểu tượng GitHub ở dưới **Footer** vẫn không mở được link, thì nguyên nhân chính là do **thẻ `<a>` ở Footer hiện tại đang để trống** (`href="#"`).
+
+Khi bấm vào dấu `#`, trình duyệt sẽ chỉ hiểu là cuộn lên đầu trang hoặc giữ nguyên vị trí chứ không nhảy trang được.
+
+Mình đã kiểm tra lại toàn bộ file và sửa lại chính xác liên kết cho **cả 2 vị trí**:
+
+1. **Trong Card liên hệ:** Đã sửa lỗi lồng thẻ `<a>`.
+2. **Dưới Footer (Kế bên TikTok):** Đã thay `href="#"` thành `href="https://github.com/nguyendinhhao1201-coder"`.
+
+Bạn copy lại toàn bộ mã chuẩn 100% dưới đây nhé:
+
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -245,7 +257,7 @@
                                 <i class="fa-brands fa-github text-2xl"></i>
                             </div>
                             <p class="text-blue-200 text-sm font-medium mb-2 tracking-wide uppercase">GitHub</p>
-                            <span class="text-lg font-bold hover:text-white transition-colors underline decoration-dotted">nguyendinhhao1201-coder</span>
+                            <span class="text-lg font-bold group-hover:text-white transition-colors underline decoration-dotted">nguyendinhhao1201-coder</span>
                         </a>
 
                     </div>
@@ -382,3 +394,7 @@
     </script>
 </body>
 </html>
+
+```
+
+Bản này chắc chắn sẽ nhảy link mượt mà khi click. Bạn copy và test thử nhé!

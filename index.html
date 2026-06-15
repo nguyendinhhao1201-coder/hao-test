@@ -19,9 +19,8 @@
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
 
     <style>
-        /* Đảm bảo thanh cuộn hoạt động mượt mà với Lenis */
         html {
-            scroll-padding-top: 4rem; /* Trừ hao khoảng cách để menu không che mất tiêu đề */
+            scroll-padding-top: 4rem;
         }
         
         /* Custom animations */
@@ -44,7 +43,7 @@
         .delay-400 { animation-delay: 400ms; }
         .delay-500 { animation-delay: 500ms; }
 
-        /* Premium iOS 26 Glassmorphism Toast Popup */
+        /* Premium iOS Glassmorphism Toast Popup */
         #toast {
             visibility: hidden;
             min-width: 320px;
@@ -142,7 +141,7 @@
                         <i class="fa-solid fa-paw text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">HelloPet</h3>
-                    <p class="text-gray-400">Cộng đồng và dịch vụ chăm sóc toàn diện dành cho những người bạn đóng chân của bạn.</p>
+                    <p class="text-gray-400">Cộng đồng và dịch vụ chăm sóc toàn diện dành cho những người bạn bốn chân của bạn.</p>
                 </div>
 
                 <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-400" onclick="showToast('HelloShop đang được phát triển. Cùng đón chờ nhé!')">
@@ -181,7 +180,7 @@
                         Xin chào, mình là <span class="text-blue-400">Nguyễn Đình Hào</span>
                     </h3>
                     <p class="mt-6 text-lg text-gray-300 leading-relaxed">
-                        Là một học sinh với niềm đamê cháy bỏng dành cho công nghệ và lập trình, mình đã ấp ủ ý tưởng về <strong class="text-white">Hello Ecosystem</strong>. Nhận thấy sự phân mảnh của các dịch vụ trực tuyến hiện nay, mình mong muốn tạo ra một nền tảng thống nhất.
+                        Là một học sinh với niềm đam mê cháy bỏng dành cho công nghệ và lập trình, mình đã ấp ủ ý tưởng về <strong class="text-white">Hello Ecosystem</strong>. Nhận thấy sự phân mảnh của các dịch vụ trực tuyến hiện nay, mình mong muốn tạo ra một nền tảng thống nhất.
                     </p>
                     <p class="mt-4 text-lg text-gray-300 leading-relaxed">
                         Mục tiêu của dự án này không chỉ là thử thách bản thân trong việc học hỏi kiến thức lập trình mới (từ Web đến App), mà còn là khát vọng xây dựng một hệ sinh thái tiện ích, mang lại giá trị thực tế và trải nghiệm liền mạch cho cộng đồng.
@@ -217,62 +216,94 @@
 
     <div id="contact" class="py-24 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 slide-up delay-100">
+            <div class="text-center mb-16 slide-up delay-100">
                 <h2 class="text-base text-blue-400 font-semibold tracking-wide uppercase">Liên hệ</h2>
                 <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
                     Kết nối với tôi
                 </p>
+                <p class="mt-4 text-gray-400 max-w-xl mx-auto text-sm sm:text-base">
+                    Bạn có câu hỏi, ý tưởng hợp tác hay đơn giản chỉ muốn chia sẻ? Đừng ngần ngại liên hệ nhé.
+                </p>
             </div>
 
-            <div class="max-w-xl mx-auto bg-blue-600 p-8 sm:p-12 text-white relative rounded-3xl shadow-xl overflow-hidden slide-up delay-200">
-                <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-50 blur-3xl"></div>
-                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-700 rounded-full opacity-50 blur-3xl"></div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-5xl mx-auto items-stretch">
                 
-                <div class="relative z-10">
-                    <h4 class="text-2xl font-bold mb-8 text-center border-b border-white/20 pb-4">Thông tin liên hệ</h4>
+                <div class="lg:col-span-5 bg-blue-600 p-8 sm:p-10 text-white relative rounded-3xl shadow-xl overflow-hidden flex flex-col justify-between slide-up delay-200">
+                    <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-40 blur-3xl"></div>
+                    <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-700 rounded-full opacity-40 blur-3xl"></div>
                     
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-4 group cursor-pointer">
-                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
-                                <i class="fa-solid fa-phone text-lg"></i>
+                    <div class="relative z-10 space-y-8">
+                        <h4 class="text-xl font-bold border-b border-white/20 pb-4 tracking-wide">Thông tin liên hệ</h4>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4 group cursor-pointer">
+                                <div class="w-11 h-11 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
+                                    <i class="fa-solid fa-phone text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="text-blue-200 text-[11px] tracking-wide uppercase font-semibold">Số điện thoại</p>
+                                    <a href="tel:0768152277" class="text-base font-bold hover:text-white transition-colors tracking-wide">0768 152 277</a>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-blue-200 text-xs tracking-wide uppercase">Số điện thoại</p>
-                                <a href="tel:0768152277" class="text-lg font-bold hover:text-white transition-colors">0768 152 277</a>
-                            </div>
-                        </div>
 
-                        <div class="flex items-center gap-4 group cursor-pointer">
-                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
-                                <i class="fa-solid fa-envelope text-lg"></i>
+                            <div class="flex items-center gap-4 group cursor-pointer">
+                                <div class="w-11 h-11 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
+                                    <i class="fa-solid fa-envelope text-sm"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-blue-200 text-[11px] tracking-wide uppercase font-semibold">Email</p>
+                                    <a href="mailto:nguyendinhhao1201@gmail.com" class="text-sm font-bold hover:text-white transition-colors break-all">nguyendinhhao1201@gmail.com</a>
+                                </div>
                             </div>
-                            <div class="min-w-0">
-                                <p class="text-blue-200 text-xs tracking-wide uppercase">Email</p>
-                                <a href="mailto:nguyendinhhao1201@gmail.com" class="text-sm sm:text-base font-semibold hover:text-white transition-colors break-all">nguyendinhhao1201@gmail.com</a>
-                            </div>
-                        </div>
 
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0 border border-white/10">
-                                <i class="fa-solid fa-location-dot text-lg"></i>
+                            <div class="flex items-center gap-4">
+                                <div class="w-11 h-11 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0 border border-white/10">
+                                    <i class="fa-solid fa-location-dot text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="text-blue-200 text-[11px] tracking-wide uppercase font-semibold">Vị trí</p>
+                                    <p class="text-base font-bold">Việt Nam</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-blue-200 text-xs tracking-wide uppercase">Vị trí</p>
-                                <p class="text-lg font-bold">Việt Nam</p>
-                            </div>
-                        </div>
 
-                        <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group cursor-pointer">
-                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
-                                <i class="fa-brands fa-github text-lg"></i>
-                            </div>
-                            <div class="min-w-0 flex-1">
-                                <p class="text-blue-200 text-xs tracking-wide uppercase">GitHub</p>
-                                <p class="text-sm sm:text-lg font-bold group-hover:text-white transition-colors break-all leading-tight">nguyendinhhao1201-coder</p>
-                            </div>
-                        </a>
+                            <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group cursor-pointer">
+                                <div class="w-11 h-11 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
+                                    <i class="fa-brands fa-github text-base"></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-blue-200 text-[11px] tracking-wide uppercase font-semibold">GitHub</p>
+                                    <p class="text-base font-bold group-hover:text-white transition-colors tracking-wide">Nguyễn Đình Hào</p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
+
+                <div class="lg:col-span-7 bg-gray-800/40 border border-gray-700/60 p-8 sm:p-10 rounded-3xl shadow-xl flex flex-col justify-between slide-up delay-300">
+                    <form onsubmit="event.preventDefault(); showToast('Tin nhắn của bạn đã được gửi thành công!');" class="space-y-5">
+                        <h4 class="text-xl font-bold text-white tracking-wide mb-2">Gửi tin nhắn</h4>
+                        
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Tên của bạn</label>
+                            <input type="text" required class="w-full bg-gray-900/60 border border-gray-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" placeholder="Nguyễn Văn A">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Email của bạn</label>
+                            <input type="email" required class="w-full bg-gray-900/60 border border-gray-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" placeholder="email@viethao.com">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Tin nhắn</label>
+                            <textarea rows="4" required class="w-full bg-gray-900/60 border border-gray-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none" placeholder="Lời nhắn của bạn..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-3 px-4 rounded-xl transition-colors shadow-md hover:shadow-lg mt-2">
+                            Gửi tin nhắn đi
+                        </button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
@@ -330,39 +361,34 @@
         </div>
 
     <script>
-        // --- 1. KHỞI TẠO LENIS SMOOTH SCROLL (GIỮ THANH LĂN GỐC + MƯỢT QUÁN TÍNH CHUẨN ĐẸP) ---
+        // --- 1. KHỞI TẠO LENIS SMOOTH SCROLL ---
         const lenis = new Lenis({
-            duration: 1.2,     // Thời gian cuộn (giây)
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Thuật toán gia tốc nịnh mắt
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             gestureDirection: 'vertical',
             smoothWaveform: true
         });
 
-        // Vòng lặp liên tục để đồng bộ hóa Lenis với trình duyệt
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
 
-        // Hàm cuộn mượt khi bấm các nút menu
         function scrollToSection(event, targetId) {
             event.preventDefault();
             const target = document.querySelector(targetId);
             if (target) {
-                // Cuộn mượt cách mép trên 64px (độ cao của navbar)
                 lenis.scrollTo(target, { offset: -64 });
             }
         }
 
-        // Hàm quay về đầu trang khi ấn logo
         function scrollToTop() {
             lenis.scrollTo(0);
         }
 
-
-        // --- 2. CÁC HÀM HIỆU ỨNG CŨ (TOAST & CHATBOT) ---
+        // --- 2. CÁC LOGIC KHÁC ---
         let toastTimeout;
         function showToast(message) {
             const toast = document.getElementById("toast");

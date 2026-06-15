@@ -67,15 +67,15 @@
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 font-sans text-gray-800 dark:text-gray-200 antialiased overflow-x-hidden transition-colors duration-300">
 
-    <!-- Navigation -->
-    <nav class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm dark:shadow-gray-900 fixed w-full z-40 top-0 transition-colors duration-300 border-b border-gray-100/50 dark:border-gray-700/30">
+    <!-- Navigation (Sửa lỗi Menu: Sáng trắng rõ ràng / Tối xám đậm) -->
+    <nav class="bg-white/95 dark:bg-gray-800/90 backdrop-blur-md shadow-sm fixed w-full z-40 top-0 transition-colors duration-300 border-b border-gray-200/60 dark:border-gray-700/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <!-- Vùng Logo và Nút chỉnh sáng tối -->
                 <div class="flex-shrink-0 flex items-center">
-                    <span class="text-2xl font-extrabold text-blue-600 tracking-tight cursor-pointer" onclick="window.scrollTo(0,0)">Hello<span class="text-gray-800 dark:text-white transition-colors">Eco</span></span>
+                    <span class="text-2xl font-extrabold text-blue-600 tracking-tight cursor-pointer" onclick="window.scrollTo(0,0)">Hello<span class="text-gray-900 dark:text-white transition-colors">Eco</span></span>
                     
-                    <!-- Nút chỉnh Dark/Light Mode chuẩn chỉnh -->
+                    <!-- Nút chỉnh Dark/Light Mode -->
                     <div class="ml-4 flex bg-gray-200 dark:bg-gray-700 rounded-full p-1 shadow-inner items-center transition-colors border border-gray-300/30 dark:border-gray-600/30">
                         <button id="light-btn" onclick="setTheme('light')" class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300" title="Chế độ sáng">
                             <i class="fa-solid fa-sun text-sm"></i>
@@ -86,13 +86,14 @@
                     </div>
                 </div>
 
+                <!-- Menu điều hướng chữ tối ở nền sáng / chữ sáng ở nền tối -->
                 <div class="hidden md:flex space-x-8">
-                    <a href="#services" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Dịch vụ</a>
-                    <a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Về chúng tôi</a>
-                    <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Liên hệ</a>
+                    <a href="#services" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Dịch vụ</a>
+                    <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Về chúng tôi</a>
+                    <a href="#contact" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Liên hệ</a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm hidden sm:block transition-colors">Đăng nhập</button>
+                    <button class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm hidden sm:block transition-colors">Đăng nhập</button>
                     <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg">Đăng ký</button>
                 </div>
             </div>
@@ -229,97 +230,70 @@
         </div>
     </div>
 
-    <!-- Contact Section -->
+    <!-- Contact Section (ĐÃ XOÁ HOÀN TOÀN MỤC GỬI TIN NHẮN THEO YÊU CẦU) -->
     <div id="contact" class="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 slide-up delay-100">
+            <div class="text-center mb-12 slide-up delay-100">
                 <h2 class="text-base text-blue-600 dark:text-blue-400 font-semibold tracking-wide uppercase">Liên hệ</h2>
                 <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl transition-colors">
                     Kết nối với tôi
                 </p>
-                <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500 dark:text-gray-400">
-                    Bạn có câu hỏi, ý tưởng hợp tác hay đơn giản chỉ muốn chia sẻ? Đừng ngần ngại liên hệ nhé.
-                </p>
             </div>
 
-            <!-- Two-Column Contact Box -->
-            <div class="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 slide-up delay-200 flex flex-col md:flex-row transition-colors">
+            <!-- Khung thông tin liên hệ duy nhất, được căn giữa sang trọng -->
+            <div class="max-w-xl mx-auto bg-blue-600 p-12 text-white relative rounded-3xl shadow-xl overflow-hidden slide-up delay-200">
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-50 blur-3xl"></div>
+                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-700 rounded-full opacity-50 blur-3xl"></div>
                 
-                <!-- Left Info Panel -->
-                <div class="md:w-1/2 bg-blue-600 p-12 text-white relative flex flex-col justify-between overflow-hidden">
-                    <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-50 blur-3xl"></div>
-                    <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-700 rounded-full opacity-50 blur-3xl"></div>
+                <div class="relative z-10">
+                    <h4 class="text-2xl font-bold mb-8 text-center border-b border-white/20 pb-4">Thông tin liên hệ</h4>
                     
-                    <div class="relative z-10">
-                        <h4 class="text-2xl font-bold mb-8">Thông tin liên hệ</h4>
-                        
-                        <div class="space-y-6">
-                            <!-- Phone -->
-                            <div class="flex items-center gap-4 group cursor-pointer">
-                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0">
-                                    <i class="fa-solid fa-phone text-lg"></i>
-                                </div>
-                                <div>
-                                    <p class="text-blue-200 text-xs tracking-wide uppercase">Số điện thoại</p>
-                                    <a href="tel:0768152277" class="text-base font-bold hover:text-white transition-colors">0768 152 277</a>
-                                </div>
+                    <div class="space-y-6">
+                        <!-- Phone -->
+                        <div class="flex items-center gap-4 group cursor-pointer">
+                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
+                                <i class="fa-solid fa-phone text-lg"></i>
                             </div>
-
-                            <!-- Email -->
-                            <div class="flex items-center gap-4 group cursor-pointer">
-                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0">
-                                    <i class="fa-solid fa-envelope text-lg"></i>
-                                </div>
-                                <div>
-                                    <p class="text-blue-200 text-xs tracking-wide uppercase">Email</p>
-                                    <a href="mailto:nguyendinhhao1201@gmail.com" class="text-sm font-semibold hover:text-white transition-colors break-all">nguyendinhhao1201@gmail.com</a>
-                                </div>
+                            <div>
+                                <p class="text-blue-200 text-xs tracking-wide uppercase">Số điện thoại</p>
+                                <a href="tel:0768152277" class="text-lg font-bold hover:text-white transition-colors">0768 152 277</a>
                             </div>
-
-                            <!-- Location -->
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0">
-                                    <i class="fa-solid fa-location-dot text-lg"></i>
-                                </div>
-                                <div>
-                                    <p class="text-blue-200 text-xs tracking-wide uppercase">Vị trí</p>
-                                    <p class="text-base font-bold">Việt Nam</p>
-                                </div>
-                            </div>
-
-                            <!-- GitHub -->
-                            <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group cursor-pointer">
-                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0">
-                                    <i class="fa-brands fa-github text-lg"></i>
-                                </div>
-                                <div>
-                                    <p class="text-blue-200 text-xs tracking-wide uppercase">GitHub</p>
-                                    <p class="text-base font-bold group-hover:text-white transition-colors">GitHub</p>
-                                </div>
-                            </a>
                         </div>
+
+                        <!-- Email -->
+                        <div class="flex items-center gap-4 group cursor-pointer">
+                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
+                                <i class="fa-solid fa-envelope text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-blue-200 text-xs tracking-wide uppercase">Email</p>
+                                <a href="mailto:nguyendinhhao1201@gmail.com" class="text-base font-semibold hover:text-white transition-colors break-all">nguyendinhhao1201@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0 border border-white/10">
+                                <i class="fa-solid fa-location-dot text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-blue-200 text-xs tracking-wide uppercase">Vị trí</p>
+                                <p class="text-lg font-bold">Việt Nam</p>
+                            </div>
+                        </div>
+
+                        <!-- GitHub -->
+                        <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group cursor-pointer">
+                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
+                                <i class="fa-brands fa-github text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-blue-200 text-xs tracking-wide uppercase">GitHub</p>
+                                <p class="text-lg font-bold group-hover:text-white transition-colors">GitHub profile</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
-
-                <!-- Right Formspree Panel (ĐÃ XOÁ Ô NHẬP TÊN THEO YÊU CẦU) -->
-                <div class="md:w-1/2 p-12 bg-white dark:bg-gray-800 transition-colors">
-                    <h4 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Gửi tin nhắn</h4>
-                    <form action="https://formspree.io/f/xrevjbqe" method="POST" class="space-y-5">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Email của bạn</label>
-                            <input type="email" name="_replyto" required class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-gray-600 transition-all text-sm text-gray-800 dark:text-white" placeholder="email@viethao.com">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Tin nhắn</label>
-                            <textarea name="message" required rows="5" class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-gray-600 transition-all text-sm text-gray-800 dark:text-white resize-none" placeholder="Xin chào Hào, tôi muốn hỏi về..."></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition-colors shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm mt-2">
-                            <span>Gửi tin nhắn</span>
-                            <i class="fa-solid fa-paper-plane text-xs"></i>
-                        </button>
-                    </form>
-                </div>
-
             </div>
         </div>
     </div>
@@ -390,11 +364,9 @@
 
         function updateToggleUI(theme) {
             if (theme === 'dark') {
-                // Nút tối bật sáng lên, nút sáng chìm xuống màu xám trong suốt
                 darkBtn.className = 'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 bg-white dark:bg-gray-600 text-blue-600 dark:text-amber-400 shadow-md scale-105';
                 lightBtn.className = 'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 bg-transparent text-gray-400 dark:text-gray-400 hover:text-gray-200';
             } else {
-                // Nút sáng bật lên, nút tối chìm xuống
                 lightBtn.className = 'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 bg-white text-amber-500 shadow-md scale-105';
                 darkBtn.className = 'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 bg-transparent text-gray-500 hover:text-gray-700';
             }

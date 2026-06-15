@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello Ecosystem</title>
+    <script>
+        tailwind = {
+            config: {
+                darkMode: 'class',
+            }
+        }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -28,61 +35,73 @@
         .delay-400 { animation-delay: 400ms; }
         .delay-500 { animation-delay: 500ms; }
 
-        /* Toast notification */
+        /* Premium iOS 26 Glassmorphism Toast Popup */
         #toast {
             visibility: hidden;
-            min-width: 250px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 16px;
+            min-width: 320px;
+            max-width: 450px;
             position: fixed;
-            z-index: 50;
+            z-index: 100;
             left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
+            bottom: 20px;
+            transform: translateX(-50%) translateY(20px) scale(0.9);
             opacity: 0;
-            transition: opacity 0.3s, bottom 0.3s, visibility 0.3s;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        visibility 0.4s;
         }
         #toast.show {
             visibility: visible;
             opacity: 1;
-            bottom: 50px;
+            bottom: 40px;
+            transform: translateX(-50%) translateY(0) scale(1);
         }
 
-        /* Chatbot Modal */
-        #chatModal { transition: all 0.3s ease; }
+        /* Chatbot Modal Animation Transition */
+        #chatModal { 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
     </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-800 antialiased overflow-x-hidden">
+<body class="bg-gray-50 dark:bg-gray-900 font-sans text-gray-800 dark:text-gray-200 antialiased overflow-x-hidden transition-colors duration-300">
 
-    <nav class="bg-white shadow-sm fixed w-full z-40 top-0">
+    <nav class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm dark:shadow-gray-900 fixed w-full z-40 top-0 transition-colors duration-300 border-b border-gray-100/50 dark:border-gray-700/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <span class="text-2xl font-extrabold text-blue-600 tracking-tight">Hello<span class="text-gray-800">Eco</span></span>
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-extrabold text-blue-600 tracking-tight cursor-pointer" onclick="window.scrollTo(0,0)">Hello<span class="text-gray-800 dark:text-white transition-colors">Eco</span></span>
+                    
+                    <div class="ml-4 flex bg-gray-200 dark:bg-gray-700 rounded-full p-1 shadow-inner items-center transition-colors border border-gray-300/30 dark:border-gray-600/30">
+                        <button id="light-btn" onclick="setTheme('light')" class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300" title="Chế độ sáng">
+                            <i class="fa-solid fa-sun"></i>
+                        </button>
+                        <button id="dark-btn" onclick="setTheme('dark')" class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300" title="Chế độ tối">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                    </div>
                 </div>
+
                 <div class="hidden md:flex space-x-8">
-                    <a href="#services" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Dịch vụ</a>
-                    <a href="#about" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Về chúng tôi</a>
-                    <a href="#contact" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Liên hệ</a>
+                    <a href="#services" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Dịch vụ</a>
+                    <a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Về chúng tôi</a>
+                    <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Liên hệ</a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button class="text-gray-600 hover:text-blue-600 font-medium text-sm hidden sm:block transition-colors">Đăng nhập</button>
+                    <button class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium text-sm hidden sm:block transition-colors">Đăng nhập</button>
                     <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg">Đăng ký</button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="relative bg-gradient-to-br from-blue-50 to-indigo-100 pt-32 pb-20 lg:pt-40 lg:pb-28 fade-in">
+    <div class="relative bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-900 pt-32 pb-20 lg:pt-40 lg:pb-28 fade-in transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+            <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl transition-colors">
                 <span class="block">Khám phá hệ sinh thái</span>
-                <span class="block text-blue-600 mt-2">Dành riêng cho bạn</span>
+                <span class="block text-blue-600 dark:text-blue-400 mt-2">Dành riêng cho bạn</span>
             </h1>
-            <p class="mt-4 max-w-md mx-auto text-base text-gray-600 sm:text-lg md:mt-8 md:text-xl md:max-w-3xl">
+            <p class="mt-4 max-w-md mx-auto text-base text-gray-600 dark:text-gray-300 sm:text-lg md:mt-8 md:text-xl md:max-w-3xl transition-colors">
                 Từ việc tìm kiếm cơ hội nghề nghiệp, đặt món ăn ngon, chăm sóc thú cưng cho đến mua sắm và giải trí. Tất cả đều có tại Hello Ecosystem.
             </p>
             <div class="mt-10 flex justify-center gap-4">
@@ -93,162 +112,197 @@
         </div>
     </div>
 
-    <div id="services" class="py-20 bg-white">
+    <div id="services" class="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Dịch vụ của chúng tôi</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                <h2 class="text-base text-blue-600 dark:text-blue-400 font-semibold tracking-wide uppercase">Dịch vụ của chúng tôi</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl transition-colors">
                     Mọi thứ bạn cần ở một nơi
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-100" onclick="showToast('HelloJob đang được phát triển. Cùng đón chờ nhé!')">
-                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 text-blue-600">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-100" onclick="showToast('HelloJob đang được phát triển. Cùng đón chờ nhé!')">
+                    <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900/50 rounded-xl flex items-center justify-center mb-6 text-blue-600 dark:text-blue-400">
                         <i class="fa-solid fa-briefcase text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">HelloJob</h3>
-                    <p class="text-gray-600">Nền tảng tìm kiếm việc làm thông minh, kết nối ứng viên với hàng ngàn doanh nghiệp hàng đầu.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">HelloJob</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Nền tảng tìm kiếm việc làm thông minh, kết nối ứng viên với hàng ngàn doanh nghiệp hàng đầu.</p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-200" onclick="showToast('HelloFood đang được phát triển. Cùng đón chờ nhé!')">
-                    <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-6 text-orange-600">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-200" onclick="showToast('HelloFood đang được phát triển. Cùng đón chờ nhé!')">
+                    <div class="w-14 h-14 bg-orange-100 dark:bg-orange-900/50 rounded-xl flex items-center justify-center mb-6 text-orange-600 dark:text-orange-400">
                         <i class="fa-solid fa-burger text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">HelloFood</h3>
-                    <p class="text-gray-600">Giao đồ ăn tận nơi nhanh chóng với hàng ngàn lựa chọn nhà hàng và món ăn đa dạng.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">HelloFood</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Giao đồ ăn tận nơi nhanh chóng với hàng ngàn lựa chọn nhà hàng và món ăn đa dạng.</p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-300" onclick="showToast('HelloPet đang được phát triển. Cùng đón chờ nhé!')">
-                    <div class="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mb-6 text-pink-600">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-300" onclick="showToast('HelloPet đang được phát triển. Cùng đón chờ nhé!')">
+                    <div class="w-14 h-14 bg-pink-100 dark:bg-pink-900/50 rounded-xl flex items-center justify-center mb-6 text-pink-600 dark:text-pink-400">
                         <i class="fa-solid fa-paw text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">HelloPet</h3>
-                    <p class="text-gray-600">Cộng đồng và dịch vụ chăm sóc toàn diện dành cho những người bạn bốn chân của bạn.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">HelloPet</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Cộng đồng và dịch vụ chăm sóc toàn diện dành cho những người bạn bốn chân của bạn.</p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-400" onclick="showToast('HelloShop đang được phát triển. Cùng đón chờ nhé!')">
-                    <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6 text-purple-600">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-400" onclick="showToast('HelloShop đang được phát triển. Cùng đón chờ nhé!')">
+                    <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900/50 rounded-xl flex items-center justify-center mb-6 text-purple-600 dark:text-purple-400">
                         <i class="fa-solid fa-cart-shopping text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">HelloShop</h3>
-                    <p class="text-gray-600">Trải nghiệm mua sắm thương mại điện tử tiện lợi, an toàn và ngập tràn ưu đãi mỗi ngày.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">HelloShop</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Trải nghiệm mua sắm thương mại điện tử tiện lợi, an toàn và ngập tràn ưu đãi mỗi ngày.</p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-500" onclick="showToast('HelloWorld đang được phát triển. Cùng đón chờ nhé!')">
-                    <div class="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center mb-6 text-red-600">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-500" onclick="showToast('HelloWorld đang được phát triển. Cùng đón chờ nhé!')">
+                    <div class="w-14 h-14 bg-red-100 dark:bg-red-900/50 rounded-xl flex items-center justify-center mb-6 text-red-600 dark:text-red-400">
                         <i class="fa-solid fa-play text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">HelloWorld</h3>
-                    <p class="text-gray-600">Mạng xã hội video ngắn, nơi bạn thoả sức sáng tạo và chia sẻ những khoảnh khắc thú vị.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">HelloWorld</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Mạng xã hội video ngắn, nơi bạn thoả sức sáng tạo và chia sẻ những khoảnh khắc thú vị.</p>
                 </div>
 
-                <div class="bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300 p-8 flex flex-col items-center justify-center text-center slide-up delay-500">
-                    <div class="w-14 h-14 bg-gray-200 rounded-full flex items-center justify-center mb-4 text-gray-500">
+                <div class="bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 p-8 flex flex-col items-center justify-center text-center slide-up delay-500">
+                    <div class="w-14 h-14 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-500 dark:text-gray-400">
                         <i class="fa-solid fa-plus text-xl"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-700 mb-2">Và nhiều hơn nữa</h3>
-                    <p class="text-sm text-gray-500">Hệ sinh thái sẽ không ngừng mở rộng trong tương lai.</p>
+                    <h3 class="text-lg font-bold text-gray-700 dark:text-gray-300 mb-2">Và nhiều hơn nữa</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Hệ sinh thái sẽ không ngừng mở rộng trong tương lai.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="about" class="py-24 bg-gray-50 border-t border-gray-200">
+    <div id="about" class="py-24 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
                 <div class="mb-12 lg:mb-0 slide-up delay-100">
-                    <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Về nhà phát triển</h2>
-                    <h3 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        Xin chào, mình là <span class="text-blue-600">Nguyễn Đình Hào</span>
+                    <h2 class="text-base text-blue-600 dark:text-blue-400 font-semibold tracking-wide uppercase">Về nhà phát triển</h2>
+                    <h3 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl transition-colors">
+                        Xin chào, mình là <span class="text-blue-600 dark:text-blue-400">Nguyễn Đình Hào</span>
                     </h3>
-                    <p class="mt-6 text-lg text-gray-600 leading-relaxed">
-                        Là một học sinh với niềm đamê cháy bỏng dành cho công nghệ và lập trình, mình đã ấp ủ ý tưởng về <strong class="text-gray-900">Hello Ecosystem</strong>. Nhận thấy sự phân mảnh của các dịch vụ trực tuyến hiện nay, mình mong muốn tạo ra một nền tảng thống nhất.
+                    <p class="mt-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed transition-colors">
+                        Là một học sinh với niềm đamê cháy bỏng dành cho công nghệ và lập trình, mình đã ấp ủ ý tưởng về <strong class="text-gray-900 dark:text-white">Hello Ecosystem</strong>. Nhận thấy sự phân mảnh của các dịch vụ trực tuyến hiện nay, mình mong muốn tạo ra một nền tảng thống nhất.
                     </p>
-                    <p class="mt-4 text-lg text-gray-600 leading-relaxed">
+                    <p class="mt-4 text-lg text-gray-600 dark:text-gray-300 leading-relaxed transition-colors">
                         Mục tiêu của dự án này không chỉ là thử thách bản thân trong việc học hỏi kiến thức lập trình mới (từ Web đến App), mà còn là khát vọng xây dựng một hệ sinh thái tiện ích, mang lại giá trị thực tế và trải nghiệm liền mạch cho cộng đồng.
                     </p>
                     <div class="mt-8 flex gap-4">
-                        <div class="flex items-center gap-2 text-gray-700">
-                            <i class="fa-solid fa-code text-blue-600"></i>
+                        <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                            <i class="fa-solid fa-code text-blue-600 dark:text-blue-400"></i>
                             <span class="font-medium">Web Developer</span>
                         </div>
-                        <div class="flex items-center gap-2 text-gray-700">
-                            <i class="fa-solid fa-mobile-screen-button text-blue-600"></i>
+                        <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                            <i class="fa-solid fa-mobile-screen-button text-blue-600 dark:text-blue-400"></i>
                             <span class="font-medium">Future App Maker</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="relative slide-up delay-300">
-                    <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/3] bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center group">
-                        <div class="absolute inset-0 bg-blue-600 mix-blend-multiply opacity-10 group-hover:opacity-0 transition-opacity duration-300"></div>
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/3] bg-gradient-to-br from-blue-100 to-indigo-200 dark:from-blue-900/40 dark:to-indigo-900/40 flex items-center justify-center group transition-colors">
+                        <div class="absolute inset-0 bg-blue-600 mix-blend-multiply opacity-10 dark:opacity-30 group-hover:opacity-0 transition-opacity duration-300"></div>
                         <div class="text-center">
-                            <div class="w-32 h-32 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
-                                <span class="text-5xl font-bold text-blue-600">H</span>
+                            <div class="w-32 h-32 bg-white dark:bg-gray-800 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                                <span class="text-5xl font-bold text-blue-600 dark:text-blue-400">H</span>
                             </div>
-                            <p class="text-indigo-800 font-semibold text-xl tracking-wide">Nguyễn Đình Hào</p>
-                            <p class="text-indigo-600 text-sm">Founder & Developer</p>
+                            <p class="text-indigo-800 dark:text-indigo-300 font-semibold text-xl tracking-wide">Nguyễn Đình Hào</p>
+                            <p class="text-indigo-600 dark:text-indigo-400 text-sm">Founder & Developer</p>
                         </div>
                     </div>
-                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-dots pattern-dots text-blue-600 opacity-20"></div>
+                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-dots pattern-dots text-blue-600 dark:text-blue-400 opacity-20"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="contact" class="py-24 bg-white">
+    <div id="contact" class="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 slide-up delay-100">
-                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Liên hệ</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                <h2 class="text-base text-blue-600 dark:text-blue-400 font-semibold tracking-wide uppercase">Liên hệ</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl transition-colors">
                     Kết nối với tôi
                 </p>
-                <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-                    Bạn có ý tưởng hợp tác hay đơn giản chỉ muốn chia sẻ? Đừng ngần ngại liên hệ nhé.
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500 dark:text-gray-400">
+                    Bạn có câu hỏi, ý tưởng hợp tác hay đơn giản chỉ muốn chia sẻ? Đừng ngần ngại liên hệ nhé.
                 </p>
             </div>
 
-            <div class="max-w-5xl mx-auto bg-blue-600 rounded-3xl shadow-xl overflow-hidden slide-up delay-200 relative">
-                <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-50 blur-3xl"></div>
-                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-700 rounded-full opacity-50 blur-3xl"></div>
+            <div class="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 slide-up delay-200 flex flex-col md:flex-row transition-colors">
                 
-                <div class="p-12 text-white relative z-10">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="md:w-1/2 bg-blue-600 p-12 text-white relative flex flex-col justify-between overflow-hidden">
+                    <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-50 blur-3xl"></div>
+                    <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-700 rounded-full opacity-50 blur-3xl"></div>
+                    
+                    <div class="relative z-10">
+                        <h4 class="text-2xl font-bold mb-8">Thông tin liên hệ</h4>
                         
-                        <div class="flex flex-col items-center group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
-                            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-sm group-hover:bg-white/20 transition-colors">
-                                <i class="fa-solid fa-phone text-2xl"></i>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4 group cursor-pointer">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0">
+                                    <i class="fa-solid fa-phone text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-blue-200 text-xs tracking-wide uppercase">Số điện thoại</p>
+                                    <a href="tel:0768152277" class="text-base font-bold hover:text-white transition-colors">0768 152 277</a>
+                                </div>
                             </div>
-                            <p class="text-blue-200 text-sm font-medium mb-2 tracking-wide uppercase">Số điện thoại</p>
-                            <a href="tel:0768152277" class="text-lg font-bold hover:text-white transition-colors">0768 152 277</a>
+
+                            <div class="flex items-center gap-4 group cursor-pointer">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0">
+                                    <i class="fa-solid fa-envelope text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-blue-200 text-xs tracking-wide uppercase">Email</p>
+                                    <a href="mailto:nguyendinhhao1201@gmail.com" class="text-sm font-semibold hover:text-white transition-colors break-all">nguyendinhhao1201@gmail.com</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0">
+                                    <i class="fa-solid fa-location-dot text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-blue-200 text-xs tracking-wide uppercase">Vị trí</p>
+                                    <p class="text-base font-bold">Việt Nam</p>
+                                </div>
+                            </div>
+
+                            <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group cursor-pointer">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0">
+                                    <i class="fa-brands fa-github text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-blue-200 text-xs tracking-wide uppercase">GitHub</p>
+                                    <p class="text-base font-bold group-hover:text-white transition-colors">GitHub</p>
+                                </div>
+                            </a>
                         </div>
-
-                        <div class="flex flex-col items-center group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
-                            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-sm group-hover:bg-white/20 transition-colors">
-                                <i class="fa-solid fa-envelope text-2xl"></i>
-                            </div>
-                            <p class="text-blue-200 text-sm font-medium mb-2 tracking-wide uppercase">Email</p>
-                            <a href="mailto:nguyendinhhao1201@gmail.com" class="text-base font-semibold hover:text-white transition-colors break-all">nguyendinhhao1201@gmail.com</a>
-                        </div>
-
-                        <div class="flex flex-col items-center group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
-                            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-sm group-hover:bg-white/20 transition-colors">
-                                <i class="fa-solid fa-location-dot text-2xl"></i>
-                            </div>
-                            <p class="text-blue-200 text-sm font-medium mb-2 tracking-wide uppercase">Vị trí</p>
-                            <p class="text-lg font-bold">Việt Nam</p>
-                        </div>
-
-                        <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center justify-center group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
-                            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-sm group-hover:bg-white/20 transition-colors">
-                                <i class="fa-brands fa-github text-2xl"></i>
-                            </div>
-                            <p class="text-blue-200 text-sm font-medium tracking-wide uppercase">GitHub</p>
-                        </a>
-
                     </div>
                 </div>
+
+                <div class="md:w-1/2 p-12 bg-white dark:bg-gray-800 transition-colors">
+                    <h4 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Gửi tin nhắn</h4>
+                    <form action="https://formspree.io/f/xrevjbqe" method="POST" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tên của bạn</label>
+                            <input type="text" name="name" required class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-gray-600 transition-all text-sm text-gray-800 dark:text-white" placeholder="Nguyễn Văn A">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email của bạn</label>
+                            <input type="email" name="_replyto" required class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-gray-600 transition-all text-sm text-gray-800 dark:text-white" placeholder="email@viethao.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tin nhắn</label>
+                            <textarea name="message" required rows="4" class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-gray-600 transition-all text-sm text-gray-800 dark:text-white resize-none" placeholder="Xin chào Hào, tôi muốn hỏi về..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition-colors shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm mt-2">
+                            <span>Gửi tin nhắn</span>
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
@@ -285,34 +339,86 @@
         </div>
     </footer>
 
-    <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg z-50 flex items-center justify-center hover:scale-105 transition-transform">
+    <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600/90 backdrop-blur-md text-white rounded-full shadow-lg z-50 flex items-center justify-center hover:scale-105 transition-transform border border-white/20">
         <i class="fa-solid fa-robot text-2xl"></i>
     </button>
 
-    <div id="chatModal" class="hidden fixed bottom-24 right-6 w-80 bg-white rounded-2xl shadow-2xl z-50 border border-gray-200">
-        <div class="bg-blue-600 p-4 rounded-t-2xl flex justify-between text-white font-bold">
+    <div id="chatModal" class="hidden fixed bottom-24 right-6 w-80 bg-white/70 dark:bg-gray-900/75 backdrop-blur-xl rounded-2xl shadow-2xl z-50 border border-white/40 dark:border-gray-800/60 overflow-hidden">
+        <div class="bg-blue-600/85 backdrop-blur-md p-4 flex justify-between text-white font-bold border-b border-white/10">
             <span>HelloAssistant</span>
             <button onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div id="chatMessages" class="h-64 overflow-y-auto p-4 bg-gray-50 text-sm space-y-3">
-            <div class="bg-white p-3 rounded-xl shadow-sm w-fit text-gray-700">Mình là trợ lý HelloAssistant được tạo ra bởi Nguyễn Đình Hào, mình có thể giúp gì cho bạn?</div>
+        <div id="chatMessages" class="h-64 overflow-y-auto p-4 bg-transparent text-sm space-y-3">
+            <div class="bg-white/90 dark:bg-gray-800/90 p-3 rounded-2xl shadow-sm w-fit text-gray-700 dark:text-gray-200 border border-gray-100/50 dark:border-gray-700/50">Mình là trợ lý HelloAssistant được tạo ra bởi Nguyễn Đình Hào, mình có thể giúp gì cho bạn?</div>
         </div>
-        <div class="p-3 border-t flex gap-2 rounded-b-2xl">
-            <input id="chatInput" type="text" class="flex-1 border-none focus:ring-0 text-sm outline-none bg-transparent" placeholder="Nhập câu hỏi...">
+        <div class="p-3 border-t border-gray-200/50 dark:border-gray-700/50 bg-white/50 dark:bg-gray-900/40 flex gap-2">
+            <input id="chatInput" type="text" class="flex-1 border-none focus:ring-0 text-sm outline-none bg-transparent dark:text-white" placeholder="Nhập câu hỏi...">
         </div>
     </div>
 
-    <div id="toast">Thông báo</div>
+    <div id="toast" class="bg-white/75 dark:bg-gray-900/75 backdrop-blur-xl text-gray-900 dark:text-gray-100 text-sm font-medium px-5 py-4 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-white/40 dark:border-gray-800/50 flex items-center gap-3">
+        </div>
 
     <script>
-        // Custom Toast Notification
+        // --- CHỨC NĂNG DARK/LIGHT MODE ---
+        const htmlEl = document.documentElement;
+        const lightBtn = document.getElementById('light-btn');
+        const darkBtn = document.getElementById('dark-btn');
+
+        function updateToggleUI(theme) {
+            if (theme === 'dark') {
+                darkBtn.className = 'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 bg-blue-600 text-white shadow-md';
+                lightBtn.className = 'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 bg-white text-gray-600 shadow-sm';
+            } else {
+                lightBtn.className = 'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 bg-blue-600 text-white shadow-md';
+                darkBtn.className = 'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 bg-white text-gray-600 shadow-sm';
+            }
+        }
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlEl.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlEl.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+            updateToggleUI(theme);
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+        // ---------------------------------
+
+        // Custom iOS Glass Toast Notification
+        let toastTimeout;
         function showToast(message) {
             const toast = document.getElementById("toast");
-            toast.textContent = message;
-            toast.className = "show";
-            setTimeout(function(){
-                toast.className = toast.className.replace("show", "");
-            }, 3000);
+            
+            // Thiết lập cấu trúc giao diện thông báo chuẩn Apple
+            toast.innerHTML = `
+                <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/50 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 shadow-sm border border-white/20">
+                    <i class="fa-solid fa-bell text-xs"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-bold text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-0.5">Hệ thống</p>
+                    <p class="text-gray-800 dark:text-gray-200 text-sm leading-relaxed">${message}</p>
+                </div>
+            `;
+            
+            // Xóa hiệu ứng cũ nếu người dùng nhấn liên tục
+            clearTimeout(toastTimeout);
+            toast.classList.remove("show");
+            
+            // Kích hoạt animation mượt mà
+            setTimeout(() => {
+                toast.classList.add("show");
+            }, 50);
+
+            // Tự động ẩn sau 3.5 giây
+            toastTimeout = setTimeout(function(){
+                toast.classList.remove("show");
+            }, 3500);
         }
 
         // Scroll Animations Observer
@@ -354,15 +460,15 @@
 
             // Hiển thị tin người dùng
             const userMsg = document.createElement('div');
-            userMsg.className = 'bg-blue-600 text-white p-3 rounded-xl ml-auto w-fit text-sm';
+            userMsg.className = 'bg-blue-600 text-white p-3 rounded-2xl ml-auto w-fit text-sm shadow-sm max-w-[85%]';
             userMsg.textContent = msg;
             document.getElementById('chatMessages').appendChild(userMsg);
             input.value = '';
 
-            // Xử lý AI Bot (Fake delay 500ms)
+            // Xử lý AI Bot
             setTimeout(() => {
                 const botMsg = document.createElement('div');
-                botMsg.className = 'bg-white p-3 rounded-xl w-fit shadow-sm text-gray-700 text-sm';
+                botMsg.className = 'bg-white/90 dark:bg-gray-800/90 p-3 rounded-2xl w-fit shadow-sm text-gray-700 dark:text-gray-200 text-sm border border-gray-100/50 dark:border-gray-700/50 max-w-[85%]';
                 
                 const q = msg.toLowerCase();
                 
@@ -371,7 +477,7 @@
                 } else if (q.includes("job") || q.includes("food") || q.includes("pet") || q.includes("shop")) {
                     botMsg.textContent = "Các dịch vụ trong hệ sinh thái của chúng tôi được tối ưu hóa để mang lại trải nghiệm chuyên nghiệp và tiện ích nhất cho người dùng.";
                 } else {
-                    botMsg.innerHTML = `Mình không biết trả lời câu hỏi này, mình có thể dùng <a href="https://www.google.com/search?q=${encodeURIComponent(msg)}" target="_blank" class="text-blue-600 underline">Google</a> để giúp bạn.`;
+                    botMsg.innerHTML = `Mình không biết trả lời câu hỏi này, mình có thể dùng <a href="https://www.google.com/search?q=${encodeURIComponent(msg)}" target="_blank" class="text-blue-600 dark:text-blue-400 underline">Google</a> để giúp bạn.`;
                 }
                 
                 document.getElementById('chatMessages').appendChild(botMsg);

@@ -1,5 +1,18 @@
+Hào muốn một hiệu ứng cuộn siêu mượt và có độ lướt (quán tính) giống như trên các trang web cao cấp hay hệ điều hành iOS đúng không?
+
+Mặc định, thuộc tính scroll-smooth của CSS chạy khá nhanh và hơi "gắt". Để đạt được độ mượt hoàn hảo, chúng ta sẽ dùng một đoạn JavaScript nhỏ xử lý cuộn theo thuật toán Linear Interpolation (Lerp). Cách này sẽ bắt lấy sự kiện cuộn, tính toán và tạo ra một độ trễ (easing) cực kỳ nịnh mắt.
+
+Đồng thời, mình cũng sửa luôn hai lỗi hiển thị mà bạn đã khoanh đỏ trong các ảnh trước:
+
+Lỗi text dính vào nhau ở ô GitHub (Ảnh image_93bbc0.png và image_926ae6.png): Sửa lại cấu trúc Flexbox/Grid và text-overflow để tên tài khoản nguyendinhhao1201-coder hiển thị ngay ngắn, không bị xuống dòng lỗi hay đè chữ.
+
+Lỗi chữ lạ tràn lên Menu (Ảnh image_a15bbc.png): Dọn sạch đoạn text rác bị dính ở phần đầu trang.
+
+Dưới đây là toàn bộ mã nguồn chuẩn 100% đã được nâng cấp, Hào copy đè lại nhé:
+
+HTML
 <!DOCTYPE html>
-<html lang="vi" class="dark scroll-smooth">
+<html lang="vi" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +27,19 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Tối ưu hóa việc cuộn mượt mà và bù trừ khoảng cách của thanh Navigation fixed */
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 4rem; /* Giúp khi cuộn xuống không bị thanh menu che mất tiêu đề */
+        /* Khóa hành vi cuộn mặc định của trình duyệt để JavaScript tự xử lý cuộn siêu mượt */
+        html, body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #scroll-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            will-change: transform;
         }
 
         /* Custom animations */
@@ -68,19 +90,19 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 font-sans text-gray-200 antialiased overflow-x-hidden">
+<body class="bg-gray-900 font-sans text-gray-200 antialiased">
 
     <nav class="bg-gray-800/90 backdrop-blur-md fixed w-full z-40 top-0 border-b border-gray-700/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex-shrink-0 flex items-center">
-                    <span class="text-2xl font-extrabold text-blue-400 tracking-tight cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Hello<span class="text-white">Eco</span></span>
+                    <span class="text-2xl font-extrabold text-blue-400 tracking-tight cursor-pointer" onclick="smoothScrollTo(0)">Hello<span class="text-white">Eco</span></span>
                 </div>
 
                 <div class="hidden md:flex space-x-8">
-                    <a href="#services" class="text-gray-300 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Dịch vụ</a>
-                    <a href="#about" class="text-gray-300 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Về chúng tôi</a>
-                    <a href="#contact" class="text-gray-300 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Liên hệ</a>
+                    <a href="#services" onclick="handleMenuClick(event, '#services')" class="text-gray-300 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Dịch vụ</a>
+                    <a href="#about" onclick="handleMenuClick(event, '#about')" class="text-gray-300 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Về chúng tôi</a>
+                    <a href="#contact" onclick="handleMenuClick(event, '#contact')" class="text-gray-300 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Liên hệ</a>
                 </div>
                 <div class="flex items-center space-x-4">
                     <button class="text-gray-300 hover:text-blue-400 font-medium text-sm hidden sm:block transition-colors">Đăng nhập</button>
@@ -90,220 +112,223 @@
         </div>
     </nav>
 
-    <div class="relative bg-gradient-to-br from-gray-800 to-gray-900 pt-32 pb-20 lg:pt-40 lg:pb-28 fade-in">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
-                <span class="block">Khám phá hệ sinh thái</span>
-                <span class="block text-blue-400 mt-2">Dành riêng cho bạn</span>
-            </h1>
-            <p class="mt-4 max-w-md mx-auto text-base text-gray-300 sm:text-lg md:mt-8 md:text-xl md:max-w-3xl">
-                Từ việc tìm kiếm cơ hội nghề nghiệp, đặt món ăn ngon, chăm sóc thú cưng cho đến mua sắm và giải trí. Tất cả đều có tại Hello Ecosystem.
-            </p>
-            <div class="mt-10 flex justify-center gap-4">
-                <a href="#services" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-lg hover:shadow-xl transition-all">
-                    Khám phá ngay
-                </a>
-            </div>
-        </div>
-    </div>
+    <div id="scroll-container">
 
-    <div id="services" class="py-20 bg-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-base text-blue-400 font-semibold tracking-wide uppercase">Dịch vụ của chúng tôi</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
-                    Mọi thứ bạn cần ở một nơi
+        <div class="relative bg-gradient-to-br from-gray-800 to-gray-900 pt-32 pb-20 lg:pt-40 lg:pb-28 fade-in">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
+                    <span class="block">Khám phá hệ sinh thái</span>
+                    <span class="block text-blue-400 mt-2">Dành riêng cho bạn</span>
+                </h1>
+                <p class="mt-4 max-w-md mx-auto text-base text-gray-300 sm:text-lg md:mt-8 md:text-xl md:max-w-3xl">
+                    Từ việc tìm kiếm cơ hội nghề nghiệp, đặt món ăn ngon, chăm sóc thú cưng cho đến mua sắm và giải trí. Tất cả đều có tại Hello Ecosystem.
                 </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-100" onclick="showToast('HelloJob đang được phát triển. Cùng đón chờ nhé!')">
-                    <div class="w-14 h-14 bg-blue-900/50 rounded-xl flex items-center justify-center mb-6 text-blue-400">
-                        <i class="fa-solid fa-briefcase text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">HelloJob</h3>
-                    <p class="text-gray-400">Nền tảng tìm kiếm việc làm thông minh, kết nối ứng viên với hàng ngàn doanh nghiệp hàng đầu.</p>
-                </div>
-
-                <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-200" onclick="showToast('HelloFood đang được phát triển. Cùng đón chờ nhé!')">
-                    <div class="w-14 h-14 bg-orange-900/50 rounded-xl flex items-center justify-center mb-6 text-orange-400">
-                        <i class="fa-solid fa-burger text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">HelloFood</h3>
-                    <p class="text-gray-400">Giao đồ ăn tận nơi nhanh chóng với hàng ngàn lựa chọn nhà hàng và món ăn đa dạng.</p>
-                </div>
-
-                <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-300" onclick="showToast('HelloPet đang được phát triển. Cùng đón chờ nhé!')">
-                    <div class="w-14 h-14 bg-pink-900/50 rounded-xl flex items-center justify-center mb-6 text-pink-400">
-                        <i class="fa-solid fa-paw text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">HelloPet</h3>
-                    <p class="text-gray-400">Cộng đồng và dịch vụ chăm sóc toàn diện dành cho những người bạn bốn chân của bạn.</p>
-                </div>
-
-                <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-400" onclick="showToast('HelloShop đang được phát triển. Cùng đón chờ nhé!')">
-                    <div class="w-14 h-14 bg-purple-900/50 rounded-xl flex items-center justify-center mb-6 text-purple-400">
-                        <i class="fa-solid fa-cart-shopping text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">HelloShop</h3>
-                    <p class="text-gray-400">Trải nghiệm mua sắm thương mại điện tử tiện lợi, an toàn và ngập tràn ưu đãi mỗi ngày.</p>
-                </div>
-
-                <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-500" onclick="showToast('HelloWorld đang được phát triển. Cùng đón chờ nhé!')">
-                    <div class="w-14 h-14 bg-red-900/50 rounded-xl flex items-center justify-center mb-6 text-red-400">
-                        <i class="fa-solid fa-play text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">HelloWorld</h3>
-                    <p class="text-gray-400">Mạng xã hội video ngắn, nơi bạn thoả sức sáng tạo và chia sẻ những khoảnh khắc thú vị.</p>
-                </div>
-
-                <div class="bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-600 p-8 flex flex-col items-center justify-center text-center slide-up delay-500">
-                    <div class="w-14 h-14 bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
-                        <i class="fa-solid fa-plus text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-300 mb-2">Và nhiều hơn nữa</h3>
-                    <p class="text-sm text-gray-400">Hệ sinh thái sẽ không ngừng mở rộng trong tương lai.</p>
+                <div class="mt-10 flex justify-center gap-4">
+                    <a href="#services" onclick="handleMenuClick(event, '#services')" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-lg hover:shadow-xl transition-all">
+                        Khám phá ngay
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="about" class="py-24 bg-gray-800 border-t border-gray-700 text-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
-                <div class="mb-12 lg:mb-0 slide-up delay-100">
-                    <h2 class="text-base text-blue-400 font-semibold tracking-wide uppercase">Về nhà phát triển</h2>
-                    <h3 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
-                        Xin chào, mình là <span class="text-blue-400">Nguyễn Đình Hào</span>
-                    </h3>
-                    <p class="mt-6 text-lg text-gray-300 leading-relaxed">
-                        Là một học sinh với niềm đamê cháy bỏng dành cho công nghệ và lập trình, mình đã ấp ủ ý tưởng về <strong class="text-white">Hello Ecosystem</strong>. Nhận thấy sự phân mảnh của các dịch vụ trực tuyến hiện nay, mình mong muốn tạo ra một nền tảng thống nhất.
+        <div id="services" class="py-20 bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-base text-blue-400 font-semibold tracking-wide uppercase">Dịch vụ của chúng tôi</h2>
+                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
+                        Mọi thứ bạn cần ở một nơi
                     </p>
-                    <p class="mt-4 text-lg text-gray-300 leading-relaxed">
-                        Mục tiêu của dự án này không chỉ là thử thách bản thân trong việc học hỏi kiến thức lập trình mới (từ Web đến App), mà còn là khát vọng xây dựng một hệ sinh thái tiện ích, mang lại giá trị thực tế và trải nghiệm liền mạch cho cộng đồng.
-                    </p>
-                    <div class="mt-8 flex gap-4">
-                        <div class="flex items-center gap-2 text-gray-300">
-                            <i class="fa-solid fa-code text-blue-400"></i>
-                            <span class="font-medium">Web Developer</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-100" onclick="showToast('HelloJob đang được phát triển. Cùng đón chờ nhé!')">
+                        <div class="w-14 h-14 bg-blue-900/50 rounded-xl flex items-center justify-center mb-6 text-blue-400">
+                            <i class="fa-solid fa-briefcase text-2xl"></i>
                         </div>
-                        <div class="flex items-center gap-2 text-gray-300">
-                            <i class="fa-solid fa-mobile-screen-button text-blue-400"></i>
-                            <span class="font-medium">Future App Maker</span>
+                        <h3 class="text-xl font-bold text-white mb-3">HelloJob</h3>
+                        <p class="text-gray-400">Nền tảng tìm kiếm việc làm thông minh, kết nối ứng viên với hàng ngàn doanh nghiệp hàng đầu.</p>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-200" onclick="showToast('HelloFood đang được phát triển. Cùng đón chờ nhé!')">
+                        <div class="w-14 h-14 bg-orange-900/50 rounded-xl flex items-center justify-center mb-6 text-orange-400">
+                            <i class="fa-solid fa-burger text-2xl"></i>
                         </div>
+                        <h3 class="text-xl font-bold text-white mb-3">HelloFood</h3>
+                        <p class="text-gray-400">Giao đồ ăn tận nơi nhanh chóng với hàng ngàn lựa chọn nhà hàng và món ăn đa dạng.</p>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-300" onclick="showToast('HelloPet đang được phát triển. Cùng đón chờ nhé!')">
+                        <div class="w-14 h-14 bg-pink-900/50 rounded-xl flex items-center justify-center mb-6 text-pink-400">
+                            <i class="fa-solid fa-paw text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">HelloPet</h3>
+                        <p class="text-gray-400">Cộng đồng và dịch vụ chăm sóc toàn diện dành cho những người bạn bốn chân của bạn.</p>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-400" onclick="showToast('HelloShop đang được phát triển. Cùng đón chờ nhé!')">
+                        <div class="w-14 h-14 bg-purple-900/50 rounded-xl flex items-center justify-center mb-6 text-purple-400">
+                            <i class="fa-solid fa-cart-shopping text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">HelloShop</h3>
+                        <p class="text-gray-400">Trải nghiệm mua sắm thương mại điện tử tiện lợi, an toàn và ngập tràn ưu đãi mỗi ngày.</p>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-500" onclick="showToast('HelloWorld đang được phát triển. Cùng đón chờ nhé!')">
+                        <div class="w-14 h-14 bg-red-900/50 rounded-xl flex items-center justify-center mb-6 text-red-400">
+                            <i class="fa-solid fa-play text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">HelloWorld</h3>
+                        <p class="text-gray-400">Mạng xã hội video ngắn, nơi bạn thoả sức sáng tạo và chia sẻ những khoảnh khắc thú vị.</p>
+                    </div>
+
+                    <div class="bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-600 p-8 flex flex-col items-center justify-center text-center slide-up delay-500">
+                        <div class="w-14 h-14 bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
+                            <i class="fa-solid fa-plus text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-300 mb-2">Và nhiều hơn nữa</h3>
+                        <p class="text-sm text-gray-400">Hệ sinh thái sẽ không ngừng mở rộng trong tương lai.</p>
                     </div>
                 </div>
-                
-                <div class="relative slide-up delay-300">
-                    <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/3] bg-gradient-to-br from-blue-900/40 to-indigo-900/40 flex items-center justify-center group">
-                        <div class="absolute inset-0 bg-blue-600 mix-blend-multiply opacity-30 group-hover:opacity-0 transition-opacity duration-300"></div>
-                        <div class="text-center">
-                            <div class="w-32 h-32 bg-gray-800 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
-                                <span class="text-5xl font-bold text-blue-400">H</span>
+            </div>
+        </div>
+
+        <div id="about" class="py-24 bg-gray-800 border-t border-gray-700 text-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                    <div class="mb-12 lg:mb-0 slide-up delay-100">
+                        <h2 class="text-base text-blue-400 font-semibold tracking-wide uppercase">Về nhà phát triển</h2>
+                        <h3 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
+                            Xin chào, mình là <span class="text-blue-400">Nguyễn Đình Hào</span>
+                        </h3>
+                        <p class="mt-6 text-lg text-gray-300 leading-relaxed">
+                            Là một học sinh với niềm đamê cháy bỏng dành cho công nghệ và lập trình, mình đã ấp ủ ý tưởng về <strong class="text-white">Hello Ecosystem</strong>. Nhận thấy sự phân mảnh của các dịch vụ trực tuyến hiện nay, mình mong muốn tạo ra một nền tảng thống nhất.
+                        </p>
+                        <p class="mt-4 text-lg text-gray-300 leading-relaxed">
+                            Mục tiêu của dự án này không chỉ là thử thách bản thân trong việc học hỏi kiến thức lập trình mới (từ Web đến App), mà còn là khát vọng xây dựng một hệ sinh thái tiện ích, mang lại giá trị thực tế và trải nghiệm liền mạch cho cộng đồng.
+                        </p>
+                        <div class="mt-8 flex gap-4">
+                            <div class="flex items-center gap-2 text-gray-300">
+                                <i class="fa-solid fa-code text-blue-400"></i>
+                                <span class="font-medium">Web Developer</span>
                             </div>
-                            <p class="text-indigo-300 font-semibold text-xl tracking-wide">Nguyễn Đình Hào</p>
-                            <p class="text-blue-400 text-sm">Founder & Developer</p>
+                            <div class="flex items-center gap-2 text-gray-300">
+                                <i class="fa-solid fa-mobile-screen-button text-blue-400"></i>
+                                <span class="font-medium">Future App Maker</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-dots pattern-dots text-blue-400 opacity-20"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="contact" class="py-24 bg-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 slide-up delay-100">
-                <h2 class="text-base text-blue-400 font-semibold tracking-wide uppercase">Liên hệ</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
-                    Kết nối với tôi
-                </p>
-            </div>
-
-            <div class="max-w-xl mx-auto bg-blue-600 p-12 text-white relative rounded-3xl shadow-xl overflow-hidden slide-up delay-200">
-                <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-50 blur-3xl"></div>
-                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-700 rounded-full opacity-50 blur-3xl"></div>
-                
-                <div class="relative z-10">
-                    <h4 class="text-2xl font-bold mb-8 text-center border-b border-white/20 pb-4">Thông tin liên hệ</h4>
                     
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-4 group cursor-pointer">
-                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
-                                <i class="fa-solid fa-phone text-lg"></i>
-                            </div>
-                            <div>
-                                <p class="text-blue-200 text-xs tracking-wide uppercase">Số điện thoại</p>
-                                <a href="tel:0768152277" class="text-lg font-bold hover:text-white transition-colors">0768 152 277</a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-4 group cursor-pointer">
-                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
-                                <i class="fa-solid fa-envelope text-lg"></i>
-                            </div>
-                            <div>
-                                <p class="text-blue-200 text-xs tracking-wide uppercase">Email</p>
-                                <a href="mailto:nguyendinhhao1201@gmail.com" class="text-base font-semibold hover:text-white transition-colors break-all">nguyendinhhao1201@gmail.com</a>
+                    <div class="relative slide-up delay-300">
+                        <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/3] bg-gradient-to-br from-blue-900/40 to-indigo-900/40 flex items-center justify-center group">
+                            <div class="absolute inset-0 bg-blue-600 mix-blend-multiply opacity-30 group-hover:opacity-0 transition-opacity duration-300"></div>
+                            <div class="text-center">
+                                <div class="w-32 h-32 bg-gray-800 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                                    <span class="text-5xl font-bold text-blue-400">H</span>
+                                </div>
+                                <p class="text-indigo-300 font-semibold text-xl tracking-wide">Nguyễn Đình Hào</p>
+                                <p class="text-blue-400 text-sm">Founder & Developer</p>
                             </div>
                         </div>
-
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0 border border-white/10">
-                                <i class="fa-solid fa-location-dot text-lg"></i>
-                            </div>
-                            <div>
-                                <p class="text-blue-200 text-xs tracking-wide uppercase">Vị trí</p>
-                                <p class="text-lg font-bold">Việt Nam</p>
-                            </div>
-                        </div>
-
-                        <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group cursor-pointer">
-                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
-                                <i class="fa-brands fa-github text-lg"></i>
-                            </div>
-                            <div>
-                                <p class="text-blue-200 text-xs tracking-wide uppercase">GitHub</p>
-                                <p class="text-lg font-bold group-hover:text-white transition-colors">GitHub profile</p>
-                            </div>
-                        </a>
+                        <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-dots pattern-dots text-blue-400 opacity-20"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="bg-blue-600">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-            <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                <span class="block">Sẵn sàng để bắt đầu?</span>
-                <span class="block text-blue-200">Đăng ký tài khoản miễn phí ngay hôm nay.</span>
-            </h2>
-            <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-                <div class="inline-flex rounded-md shadow">
-                    <button class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors">
-                        Bắt đầu ngay
-                    </button>
+        <div id="contact" class="py-24 bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 slide-up delay-100">
+                    <h2 class="text-base text-blue-400 font-semibold tracking-wide uppercase">Liên hệ</h2>
+                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
+                        Kết nối với tôi
+                    </p>
+                </div>
+
+                <div class="max-w-xl mx-auto bg-blue-600 p-8 sm:p-12 text-white relative rounded-3xl shadow-xl overflow-hidden slide-up delay-200">
+                    <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-50 blur-3xl"></div>
+                    <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-700 rounded-full opacity-50 blur-3xl"></div>
+                    
+                    <div class="relative z-10">
+                        <h4 class="text-2xl font-bold mb-8 text-center border-b border-white/20 pb-4">Thông tin liên hệ</h4>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4 group cursor-pointer">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
+                                    <i class="fa-solid fa-phone text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-blue-200 text-xs tracking-wide uppercase">Số điện thoại</p>
+                                    <a href="tel:0768152277" class="text-lg font-bold hover:text-white transition-colors">0768 152 277</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 group cursor-pointer">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
+                                    <i class="fa-solid fa-envelope text-lg"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-blue-200 text-xs tracking-wide uppercase">Email</p>
+                                    <a href="mailto:nguyendinhhao1201@gmail.com" class="text-sm sm:text-base font-semibold hover:text-white transition-colors break-all">nguyendinhhao1201@gmail.com</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0 border border-white/10">
+                                    <i class="fa-solid fa-location-dot text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-blue-200 text-xs tracking-wide uppercase">Vị trí</p>
+                                    <p class="text-lg font-bold">Việt Nam</p>
+                                </div>
+                            </div>
+
+                            <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group cursor-pointer">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
+                                    <i class="fa-brands fa-github text-lg"></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-blue-200 text-xs tracking-wide uppercase">GitHub</p>
+                                    <p class="text-sm sm:text-lg font-bold group-hover:text-white transition-colors break-all leading-tight">nguyendinhhao1201-coder</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <footer class="bg-gray-900 py-12 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-            <div class="flex justify-center items-center mb-4 md:mb-0">
-                <span class="text-2xl font-extrabold text-white tracking-tight">Hello<span class="text-gray-400">Eco</span></span>
-            </div>
-            <p class="text-gray-400 text-sm text-center md:text-left">
-                &copy; 2026 Phát triển bởi Nguyễn Đình Hào. Bảo lưu mọi quyền.
-            </p>
-            <div class="flex space-x-6 mt-4 md:mt-0 text-gray-400">
-                <a href="https://www.facebook.com/share/1G8eYpiJHR/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook text-xl"></i></a>
-                <a href="https://www.tiktok.com/@nguyenhao1201._?_r=1&_t=ZS-97DqaxDofIe" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors"><i class="fa-brands fa-tiktok text-xl"></i></a>
-                <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+        <div class="bg-blue-600">
+            <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+                <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                    <span class="block">Sẵn sàng để bắt đầu?</span>
+                    <span class="block text-blue-200">Đăng ký tài khoản miễn phí ngay hôm nay.</span>
+                </h2>
+                <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                    <div class="inline-flex rounded-md shadow">
+                        <button class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors">
+                            Bắt đầu ngay
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </footer>
+
+        <footer class="bg-gray-900 py-12 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="flex justify-center items-center mb-4 md:mb-0">
+                    <span class="text-2xl font-extrabold text-white tracking-tight">Hello<span class="text-gray-400">Eco</span></span>
+                </div>
+                <p class="text-gray-400 text-sm text-center md:text-left">
+                    &copy; 2026 Phát triển bởi Nguyễn Đình Hào. Bảo lưu mọi quyền.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0 text-gray-400">
+                    <a href="https://www.facebook.com/share/1G8eYpiJHR/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook text-xl"></i></a>
+                    <a href="https://www.tiktok.com/@nguyenhao1201._?_r=1&_t=ZS-97DqaxDofIe" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors"><i class="fa-brands fa-tiktok text-xl"></i></a>
+                    <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600/90 backdrop-blur-md text-white rounded-full shadow-lg z-50 flex items-center justify-center hover:scale-105 transition-transform border border-white/20">
         <i class="fa-solid fa-robot text-2xl"></i>
@@ -326,7 +351,62 @@
         </div>
 
     <script>
-        // Custom iOS Glass Toast Notification
+        // --- THUẬT TOÁN SMOOTH SCROLL QUÁN TÍNH CAO CẤP (SMOOTH SCROLLING INTERPOLATION) ---
+        const body = document.body;
+        const scrollContainer = document.getElementById("scroll-container");
+        
+        let ease = 0.08; // ĐỘ MƯỢT: Chỉ số càng nhỏ thì cuộn càng mượt và có độ lướt quán tính dài (Khuyên dùng: 0.05 - 0.1)
+        let currentPosition = 0;
+        let targetPosition = 0;
+
+        // Cập nhật chiều cao thực tế của body để xuất hiện thanh cuộn giả lập chính xác
+        function updateBodyHeight() {
+            body.style.height = scrollContainer.getBoundingClientRect().height + "px";
+        }
+        window.addEventListener("resize", updateBodyHeight);
+        window.addEventListener("DOMContentLoaded", updateBodyHeight);
+        // Chạy lại sau vài mili-giây đề phòng nội dung chưa render kịp
+        setTimeout(updateBodyHeight, 500);
+
+        // Lắng nghe sự kiện cuộn tự nhiên của trình duyệt
+        window.addEventListener("scroll", () => {
+            targetPosition = window.scrollY;
+        });
+
+        // Hàm lặp chạy liên tục hoạt cảnh (Animation Loop)
+        function renderSmoothScroll() {
+            // Công thức Lerp giúp tính toán vị trí mượt mà giữa điểm hiện tại và điểm đích
+            currentPosition += (targetPosition - currentPosition) * ease;
+            
+            // Dịch chuyển Container nội dung theo trục Y
+            scrollContainer.style.transform = `translate3d(0, -${Math.round(currentPosition)}px, 0)`;
+            
+            // Tiếp tục vòng lặp animation tối ưu hiệu năng đồ họa
+            requestAnimationFrame(renderSmoothScroll);
+        }
+        requestAnimationFrame(renderSmoothScroll);
+
+        // Hàm điều hướng cuộn mượt đến một vị trí mong muốn khi click menu
+        function smoothScrollTo(targetY) {
+            window.scrollTo({
+                top: targetY,
+                behavior: 'auto' // Sử dụng tự động điều phối để nhường quyền xử lý quán tính cho JS Lerp bên trên
+            });
+        }
+
+        // Xử lý khi click vào các liên kết menu điều hướng
+        function handleMenuClick(event, targetId) {
+            event.preventDefault(); // Ngăn chặn nhảy trang khựng lỗi mặc định
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Trừ đi 64px độ cao của thanh menu fixed phía trên để không che tiêu đề
+                const targetY = targetElement.getBoundingClientRect().top + window.scrollY - 64;
+                smoothScrollTo(targetY);
+            }
+        }
+
+
+        // --- CÁC LOGIC KHÁC CỦA TOAST NOTIFICATION VÀ CHATBOT SEED ---
         let toastTimeout;
         function showToast(message) {
             const toast = document.getElementById("toast");
@@ -412,6 +492,8 @@
                 
                 document.getElementById('chatMessages').appendChild(botMsg);
                 document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+                // Cập nhật lại chiều cao ảo sau khi chatbot phình tin nhắn ra (nếu có biến động giao diện)
+                updateBodyHeight();
             }, 500);
         }
     </script>

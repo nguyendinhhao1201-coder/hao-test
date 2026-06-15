@@ -362,4 +362,1457 @@
         });
     </script>
 </body>
+</html><!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HelloWorld - Mạng xã hội Video ngắn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Scroll Snap Setup */
+        .video-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh; /* Fallback */
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            scroll-behavior: smooth;
+        }
+
+        .video-item {
+            scroll-snap-align: start;
+            height: 100vh;
+            height: 100dvh;
+            position: relative;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin-slow {
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 5s linear infinite;
+        }
+
+        /* Heart animation */
+        @keyframes heartBurst {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .heart-liked {
+            color: #ef4444 !important; /* Tailwind red-500 */
+            animation: heartBurst 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white font-sans antialiased flex justify-center items-center h-screen overflow-hidden">
+
+    <!-- App Container (Simulating Mobile Phone Screen on Desktop) -->
+    <div class="relative w-full h-full max-w-md bg-black shadow-2xl sm:border-x sm:border-gray-800 overflow-hidden">
+        
+        <!-- Top Navigation -->
+        <div class="absolute top-0 w-full z-20 px-4 pt-8 pb-4 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent pointer-events-none">
+            <div class="flex space-x-6 w-full justify-center text-sm font-semibold drop-shadow-md pointer-events-auto">
+                <button class="text-gray-300 opacity-80 hover:opacity-100 transition-opacity">Đang follow</button>
+                <div class="flex items-center space-x-1">
+                    <button class="text-white border-b-2 border-white pb-1">Dành cho bạn</button>
+                </div>
+            </div>
+            <i class="fa-solid fa-magnifying-glass absolute right-4 text-xl drop-shadow-md pointer-events-auto cursor-pointer hover:text-gray-300"></i>
+        </div>
+
+        <!-- Feed Container -->
+        <div class="video-container no-scrollbar" id="feed">
+            
+            <!-- Video 1 -->
+            <div class="video-item group">
+                <!-- Video Element -->
+                <video class="w-full h-full object-cover" loop muted playsinline autoplay>
+                    <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+                
+                <!-- Play/Pause Overlay Indicator -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 pointer-events-none" id="playIndicator-1">
+                    <i class="fa-solid fa-play text-6xl text-white/50 drop-shadow-lg"></i>
+                </div>
+
+                <!-- Right Sidebar Actions -->
+                <div class="absolute bottom-24 right-4 flex flex-col items-center space-y-5 z-10">
+                    <!-- Profile -->
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-full bg-white border-2 border-white overflow-hidden p-0.5">
+                            <img src="https://placehold.co/100x100/3b82f6/white?text=H" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <button class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border border-white">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
+                        </button>
+                    </div>
+
+                    <!-- Actions -->
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity" onclick="toggleLike(this)">
+                        <i class="fa-solid fa-heart text-3xl mb-1 transition-colors duration-300"></i>
+                        <span class="text-xs font-medium">12.5K</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-comment-dots text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">432</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-bookmark text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">1.2K</span>
+                    </button>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-share text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">Chia sẻ</span>
+                    </button>
+
+                    <!-- Audio Record -->
+                    <div class="w-10 h-10 mt-4 rounded-full bg-gray-800 p-2 spin-slow flex items-center justify-center border-2 border-gray-600">
+                        <div class="w-full h-full rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center">
+                            <i class="fa-solid fa-music text-[10px]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Info (Username, Caption, Music) -->
+                <div class="absolute bottom-20 left-4 right-20 z-10 text-white drop-shadow-md">
+                    <h3 class="font-bold text-base mb-1 hover:underline cursor-pointer">@nguyendinhhao</h3>
+                    <p class="text-sm mb-2 line-clamp-2">Chào mừng đến với HelloWorld! Đây là một bài test giao diện ứng dụng video ngắn mượt mà. 🔥 #helloworld #coding</p>
+                    <div class="flex items-center space-x-2 text-sm w-48 overflow-hidden">
+                        <i class="fa-solid fa-music text-xs"></i>
+                        <div class="w-full overflow-hidden relative">
+                            <span class="animate-marquee inline-block text-xs font-medium">Âm thanh gốc - @nguyendinhhao - Trending 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-item group">
+                <video class="w-full h-full object-cover" loop muted playsinline>
+                    <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" type="video/mp4">
+                </video>
+                
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 pointer-events-none" id="playIndicator-2">
+                    <i class="fa-solid fa-play text-6xl text-white/50 drop-shadow-lg"></i>
+                </div>
+
+                <!-- Right Sidebar Actions -->
+                <div class="absolute bottom-24 right-4 flex flex-col items-center space-y-5 z-10">
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-full bg-white border-2 border-white overflow-hidden p-0.5">
+                            <img src="https://placehold.co/100x100/10b981/white?text=A" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <button class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border border-white">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
+                        </button>
+                    </div>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity" onclick="toggleLike(this)">
+                        <i class="fa-solid fa-heart text-3xl mb-1 transition-colors duration-300"></i>
+                        <span class="text-xs font-medium">9.8K</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-comment-dots text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">120</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-bookmark text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">856</span>
+                    </button>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-share text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">Chia sẻ</span>
+                    </button>
+
+                    <div class="w-10 h-10 mt-4 rounded-full bg-gray-800 p-2 spin-slow flex items-center justify-center border-2 border-gray-600">
+                        <div class="w-full h-full rounded-full bg-gradient-to-tr from-green-400 to-emerald-600 flex items-center justify-center">
+                            <i class="fa-solid fa-music text-[10px]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Info -->
+                <div class="absolute bottom-20 left-4 right-20 z-10 text-white drop-shadow-md">
+                    <h3 class="font-bold text-base mb-1 hover:underline cursor-pointer">@coder_life</h3>
+                    <p class="text-sm mb-2 line-clamp-2">Lập trình không khó, khó ở chỗ phải fix bug lúc 2h sáng 😭💻 #devlife #funny</p>
+                    <div class="flex items-center space-x-2 text-sm w-48 overflow-hidden">
+                        <i class="fa-solid fa-music text-xs"></i>
+                        <div class="w-full overflow-hidden relative">
+                            <span class="animate-marquee inline-block text-xs font-medium">Nhạc chill thư giãn - Lofi Remix</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Navigation App Bar -->
+        <div class="absolute bottom-0 w-full bg-black/95 backdrop-blur-sm border-t border-gray-800 z-30 pb-safe">
+            <div class="flex justify-between items-center px-6 py-3">
+                <button class="flex flex-col items-center text-white">
+                    <i class="fa-solid fa-house text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Trang chủ</span>
+                </button>
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-compass text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Khám phá</span>
+                </button>
+                
+                <!-- Create Button (Center) -->
+                <button class="flex items-center justify-center px-4 py-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 rounded-xl transform -translate-y-2 hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-plus text-white text-lg"></i>
+                </button>
+
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-inbox text-xl mb-1 relative">
+                        <span class="absolute -top-1 -right-1.5 bg-red-500 w-3.5 h-3.5 rounded-full border border-black text-[8px] flex items-center justify-center text-white">3</span>
+                    </i>
+                    <span class="text-[10px] font-medium">Hộp thư</span>
+                </button>
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-regular fa-user text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Hồ sơ</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const feed = document.getElementById('feed');
+            const videos = document.querySelectorAll('video');
+            const videoItems = document.querySelectorAll('.video-item');
+
+            // 1. Logic to play video when it scrolls into view, pause when out of view
+            const observerOptions = {
+                root: feed,
+                rootMargin: '0px',
+                threshold: 0.7 // Triggers when 70% of the video is visible
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target.querySelector('video');
+                    if (entry.isIntersecting) {
+                        // Fix: Handle Promise and ignore AbortError
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                if (e.name !== 'AbortError') console.log("Play error:", e);
+                            });
+                        }
+                    } else {
+                        video.pause();
+                        video.currentTime = 0; // Reset video to start
+                    }
+                });
+            }, observerOptions);
+
+            videoItems.forEach(item => {
+                observer.observe(item);
+                
+                // 2. Logic to Tap to Play/Pause
+                const video = item.querySelector('video');
+                const indicator = item.querySelector('[id^="playIndicator-"]');
+
+                item.addEventListener('click', (e) => {
+                    // Prevent pause if clicking on sidebar buttons
+                    if(e.target.closest('button')) return;
+
+                    if (video.paused) {
+                        // Fix: Handle Promise and ignore AbortError
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                if (e.name !== 'AbortError') console.log("Play error:", e);
+                            });
+                        }
+                        indicator.style.opacity = '0';
+                    } else {
+                        video.pause();
+                        indicator.style.opacity = '1';
+                    }
+                });
+
+                // Optional: Double tap to like
+                let lastTap = 0;
+                item.addEventListener('touchstart', (e) => {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+                    if (tapLength < 500 && tapLength > 0) {
+                        // Double tap detected
+                        const heartBtn = item.querySelector('.fa-heart').parentElement;
+                        toggleLike(heartBtn);
+                        e.preventDefault();
+                    }
+                    lastTap = currentTime;
+                });
+            });
+        });
+
+        // 3. Logic to toggle Like button
+        function toggleLike(btn) {
+            const icon = btn.querySelector('i');
+            const countSpan = btn.querySelector('span');
+            
+            icon.classList.toggle('fa-regular'); // Outline heart
+            icon.classList.toggle('fa-solid');   // Solid heart
+            icon.classList.toggle('heart-liked');
+
+            // Fake update number
+            let currentCount = parseFloat(countSpan.innerText.replace('K', ''));
+            if(icon.classList.contains('heart-liked')) {
+                countSpan.innerText = (currentCount + 0.1).toFixed(1) + 'K';
+            } else {
+                countSpan.innerText = (currentCount - 0.1).toFixed(1) + 'K';
+            }
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HelloWorld - Mạng xã hội Video ngắn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Scroll Snap Setup */
+        .video-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh; /* Fallback */
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            scroll-behavior: smooth;
+        }
+
+        .video-item {
+            scroll-snap-align: start;
+            height: 100vh;
+            height: 100dvh;
+            position: relative;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin-slow {
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 5s linear infinite;
+        }
+
+        /* Heart animation */
+        @keyframes heartBurst {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .heart-liked {
+            color: #ef4444 !important; /* Tailwind red-500 */
+            animation: heartBurst 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white font-sans antialiased flex justify-center items-center h-screen overflow-hidden">
+
+    <!-- App Container (Simulating Mobile Phone Screen on Desktop) -->
+    <div class="relative w-full h-full max-w-md bg-black shadow-2xl sm:border-x sm:border-gray-800 overflow-hidden">
+        
+        <!-- Top Navigation -->
+        <div class="absolute top-0 w-full z-20 px-4 pt-8 pb-4 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent pointer-events-none">
+            <div class="flex space-x-6 w-full justify-center text-sm font-semibold drop-shadow-md pointer-events-auto">
+                <button class="text-gray-300 opacity-80 hover:opacity-100 transition-opacity">Đang follow</button>
+                <div class="flex items-center space-x-1">
+                    <button class="text-white border-b-2 border-white pb-1">Dành cho bạn</button>
+                </div>
+            </div>
+            <i class="fa-solid fa-magnifying-glass absolute right-4 text-xl drop-shadow-md pointer-events-auto cursor-pointer hover:text-gray-300"></i>
+        </div>
+
+        <!-- Feed Container -->
+        <div class="video-container no-scrollbar" id="feed">
+            
+            <!-- Video 1 -->
+            <div class="video-item group">
+                <!-- Video Element -->
+                <video class="w-full h-full object-cover" loop muted playsinline autoplay>
+                    <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+                
+                <!-- Play/Pause Overlay Indicator -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 pointer-events-none" id="playIndicator-1">
+                    <i class="fa-solid fa-play text-6xl text-white/50 drop-shadow-lg"></i>
+                </div>
+
+                <!-- Right Sidebar Actions -->
+                <div class="absolute bottom-24 right-4 flex flex-col items-center space-y-5 z-10">
+                    <!-- Profile -->
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-full bg-white border-2 border-white overflow-hidden p-0.5">
+                            <img src="https://placehold.co/100x100/3b82f6/white?text=H" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <button class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border border-white">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
+                        </button>
+                    </div>
+
+                    <!-- Actions -->
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity" onclick="toggleLike(this)">
+                        <i class="fa-solid fa-heart text-3xl mb-1 transition-colors duration-300"></i>
+                        <span class="text-xs font-medium">12.5K</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-comment-dots text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">432</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-bookmark text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">1.2K</span>
+                    </button>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-share text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">Chia sẻ</span>
+                    </button>
+
+                    <!-- Audio Record -->
+                    <div class="w-10 h-10 mt-4 rounded-full bg-gray-800 p-2 spin-slow flex items-center justify-center border-2 border-gray-600">
+                        <div class="w-full h-full rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center">
+                            <i class="fa-solid fa-music text-[10px]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Info (Username, Caption, Music) -->
+                <div class="absolute bottom-20 left-4 right-20 z-10 text-white drop-shadow-md">
+                    <h3 class="font-bold text-base mb-1 hover:underline cursor-pointer">@nguyendinhhao</h3>
+                    <p class="text-sm mb-2 line-clamp-2">Chào mừng đến với HelloWorld! Đây là một bài test giao diện ứng dụng video ngắn mượt mà. 🔥 #helloworld #coding</p>
+                    <div class="flex items-center space-x-2 text-sm w-48 overflow-hidden">
+                        <i class="fa-solid fa-music text-xs"></i>
+                        <div class="w-full overflow-hidden relative">
+                            <span class="animate-marquee inline-block text-xs font-medium">Âm thanh gốc - @nguyendinhhao - Trending 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-item group">
+                <video class="w-full h-full object-cover" loop muted playsinline>
+                    <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" type="video/mp4">
+                </video>
+                
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 pointer-events-none" id="playIndicator-2">
+                    <i class="fa-solid fa-play text-6xl text-white/50 drop-shadow-lg"></i>
+                </div>
+
+                <!-- Right Sidebar Actions -->
+                <div class="absolute bottom-24 right-4 flex flex-col items-center space-y-5 z-10">
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-full bg-white border-2 border-white overflow-hidden p-0.5">
+                            <img src="https://placehold.co/100x100/10b981/white?text=A" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <button class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border border-white">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
+                        </button>
+                    </div>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity" onclick="toggleLike(this)">
+                        <i class="fa-solid fa-heart text-3xl mb-1 transition-colors duration-300"></i>
+                        <span class="text-xs font-medium">9.8K</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-comment-dots text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">120</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-bookmark text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">856</span>
+                    </button>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-share text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">Chia sẻ</span>
+                    </button>
+
+                    <div class="w-10 h-10 mt-4 rounded-full bg-gray-800 p-2 spin-slow flex items-center justify-center border-2 border-gray-600">
+                        <div class="w-full h-full rounded-full bg-gradient-to-tr from-green-400 to-emerald-600 flex items-center justify-center">
+                            <i class="fa-solid fa-music text-[10px]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Info -->
+                <div class="absolute bottom-20 left-4 right-20 z-10 text-white drop-shadow-md">
+                    <h3 class="font-bold text-base mb-1 hover:underline cursor-pointer">@coder_life</h3>
+                    <p class="text-sm mb-2 line-clamp-2">Lập trình không khó, khó ở chỗ phải fix bug lúc 2h sáng 😭💻 #devlife #funny</p>
+                    <div class="flex items-center space-x-2 text-sm w-48 overflow-hidden">
+                        <i class="fa-solid fa-music text-xs"></i>
+                        <div class="w-full overflow-hidden relative">
+                            <span class="animate-marquee inline-block text-xs font-medium">Nhạc chill thư giãn - Lofi Remix</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Navigation App Bar -->
+        <div class="absolute bottom-0 w-full bg-black/95 backdrop-blur-sm border-t border-gray-800 z-30 pb-safe">
+            <div class="flex justify-between items-center px-6 py-3">
+                <button class="flex flex-col items-center text-white">
+                    <i class="fa-solid fa-house text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Trang chủ</span>
+                </button>
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-compass text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Khám phá</span>
+                </button>
+                
+                <!-- Create Button (Center) -->
+                <button class="flex items-center justify-center px-4 py-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 rounded-xl transform -translate-y-2 hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-plus text-white text-lg"></i>
+                </button>
+
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-inbox text-xl mb-1 relative">
+                        <span class="absolute -top-1 -right-1.5 bg-red-500 w-3.5 h-3.5 rounded-full border border-black text-[8px] flex items-center justify-center text-white">3</span>
+                    </i>
+                    <span class="text-[10px] font-medium">Hộp thư</span>
+                </button>
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-regular fa-user text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Hồ sơ</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const feed = document.getElementById('feed');
+            const videos = document.querySelectorAll('video');
+            const videoItems = document.querySelectorAll('.video-item');
+
+            // 1. Logic to play video when it scrolls into view, pause when out of view
+            const observerOptions = {
+                root: feed,
+                rootMargin: '0px',
+                threshold: 0.7 // Triggers when 70% of the video is visible
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target.querySelector('video');
+                    if (entry.isIntersecting) {
+                        // Fix: Handle Promise and ignore AbortError
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                if (e.name !== 'AbortError') console.log("Play error:", e);
+                            });
+                        }
+                    } else {
+                        video.pause();
+                        video.currentTime = 0; // Reset video to start
+                    }
+                });
+            }, observerOptions);
+
+            videoItems.forEach(item => {
+                observer.observe(item);
+                
+                // 2. Logic to Tap to Play/Pause
+                const video = item.querySelector('video');
+                const indicator = item.querySelector('[id^="playIndicator-"]');
+
+                item.addEventListener('click', (e) => {
+                    // Prevent pause if clicking on sidebar buttons
+                    if(e.target.closest('button')) return;
+
+                    if (video.paused) {
+                        // Fix: Handle Promise and ignore AbortError
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                if (e.name !== 'AbortError') console.log("Play error:", e);
+                            });
+                        }
+                        indicator.style.opacity = '0';
+                    } else {
+                        video.pause();
+                        indicator.style.opacity = '1';
+                    }
+                });
+
+                // Optional: Double tap to like
+                let lastTap = 0;
+                item.addEventListener('touchstart', (e) => {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+                    if (tapLength < 500 && tapLength > 0) {
+                        // Double tap detected
+                        const heartBtn = item.querySelector('.fa-heart').parentElement;
+                        toggleLike(heartBtn);
+                        e.preventDefault();
+                    }
+                    lastTap = currentTime;
+                });
+            });
+        });
+
+        // 3. Logic to toggle Like button
+        function toggleLike(btn) {
+            const icon = btn.querySelector('i');
+            const countSpan = btn.querySelector('span');
+            
+            icon.classList.toggle('fa-regular'); // Outline heart
+            icon.classList.toggle('fa-solid');   // Solid heart
+            icon.classList.toggle('heart-liked');
+
+            // Fake update number
+            let currentCount = parseFloat(countSpan.innerText.replace('K', ''));
+            if(icon.classList.contains('heart-liked')) {
+                countSpan.innerText = (currentCount + 0.1).toFixed(1) + 'K';
+            } else {
+                countSpan.innerText = (currentCount - 0.1).toFixed(1) + 'K';
+            }
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HelloWorld - Mạng xã hội Video ngắn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Scroll Snap Setup */
+        .video-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh; /* Fallback */
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            scroll-behavior: smooth;
+        }
+
+        .video-item {
+            scroll-snap-align: start;
+            height: 100vh;
+            height: 100dvh;
+            position: relative;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin-slow {
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 5s linear infinite;
+        }
+
+        /* Heart animation */
+        @keyframes heartBurst {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .heart-liked {
+            color: #ef4444 !important; /* Tailwind red-500 */
+            animation: heartBurst 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white font-sans antialiased flex justify-center items-center h-screen overflow-hidden">
+
+    <!-- App Container (Simulating Mobile Phone Screen on Desktop) -->
+    <div class="relative w-full h-full max-w-md bg-black shadow-2xl sm:border-x sm:border-gray-800 overflow-hidden">
+        
+        <!-- Top Navigation -->
+        <div class="absolute top-0 w-full z-20 px-4 pt-8 pb-4 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent pointer-events-none">
+            <div class="flex space-x-6 w-full justify-center text-sm font-semibold drop-shadow-md pointer-events-auto">
+                <button class="text-gray-300 opacity-80 hover:opacity-100 transition-opacity">Đang follow</button>
+                <div class="flex items-center space-x-1">
+                    <button class="text-white border-b-2 border-white pb-1">Dành cho bạn</button>
+                </div>
+            </div>
+            <i class="fa-solid fa-magnifying-glass absolute right-4 text-xl drop-shadow-md pointer-events-auto cursor-pointer hover:text-gray-300"></i>
+        </div>
+
+        <!-- Feed Container -->
+        <div class="video-container no-scrollbar" id="feed">
+            
+            <!-- Video 1 -->
+            <div class="video-item group">
+                <!-- Video Element -->
+                <video class="w-full h-full object-cover" loop muted playsinline autoplay>
+                    <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+                
+                <!-- Play/Pause Overlay Indicator -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 pointer-events-none" id="playIndicator-1">
+                    <i class="fa-solid fa-play text-6xl text-white/50 drop-shadow-lg"></i>
+                </div>
+
+                <!-- Right Sidebar Actions -->
+                <div class="absolute bottom-24 right-4 flex flex-col items-center space-y-5 z-10">
+                    <!-- Profile -->
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-full bg-white border-2 border-white overflow-hidden p-0.5">
+                            <img src="https://placehold.co/100x100/3b82f6/white?text=H" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <button class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border border-white">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
+                        </button>
+                    </div>
+
+                    <!-- Actions -->
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity" onclick="toggleLike(this)">
+                        <i class="fa-solid fa-heart text-3xl mb-1 transition-colors duration-300"></i>
+                        <span class="text-xs font-medium">12.5K</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-comment-dots text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">432</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-bookmark text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">1.2K</span>
+                    </button>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-share text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">Chia sẻ</span>
+                    </button>
+
+                    <!-- Audio Record -->
+                    <div class="w-10 h-10 mt-4 rounded-full bg-gray-800 p-2 spin-slow flex items-center justify-center border-2 border-gray-600">
+                        <div class="w-full h-full rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center">
+                            <i class="fa-solid fa-music text-[10px]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Info (Username, Caption, Music) -->
+                <div class="absolute bottom-20 left-4 right-20 z-10 text-white drop-shadow-md">
+                    <h3 class="font-bold text-base mb-1 hover:underline cursor-pointer">@nguyendinhhao</h3>
+                    <p class="text-sm mb-2 line-clamp-2">Chào mừng đến với HelloWorld! Đây là một bài test giao diện ứng dụng video ngắn mượt mà. 🔥 #helloworld #coding</p>
+                    <div class="flex items-center space-x-2 text-sm w-48 overflow-hidden">
+                        <i class="fa-solid fa-music text-xs"></i>
+                        <div class="w-full overflow-hidden relative">
+                            <span class="animate-marquee inline-block text-xs font-medium">Âm thanh gốc - @nguyendinhhao - Trending 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-item group">
+                <video class="w-full h-full object-cover" loop muted playsinline>
+                    <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" type="video/mp4">
+                </video>
+                
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 pointer-events-none" id="playIndicator-2">
+                    <i class="fa-solid fa-play text-6xl text-white/50 drop-shadow-lg"></i>
+                </div>
+
+                <!-- Right Sidebar Actions -->
+                <div class="absolute bottom-24 right-4 flex flex-col items-center space-y-5 z-10">
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-full bg-white border-2 border-white overflow-hidden p-0.5">
+                            <img src="https://placehold.co/100x100/10b981/white?text=A" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <button class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border border-white">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
+                        </button>
+                    </div>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity" onclick="toggleLike(this)">
+                        <i class="fa-solid fa-heart text-3xl mb-1 transition-colors duration-300"></i>
+                        <span class="text-xs font-medium">9.8K</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-comment-dots text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">120</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-bookmark text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">856</span>
+                    </button>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-share text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">Chia sẻ</span>
+                    </button>
+
+                    <div class="w-10 h-10 mt-4 rounded-full bg-gray-800 p-2 spin-slow flex items-center justify-center border-2 border-gray-600">
+                        <div class="w-full h-full rounded-full bg-gradient-to-tr from-green-400 to-emerald-600 flex items-center justify-center">
+                            <i class="fa-solid fa-music text-[10px]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Info -->
+                <div class="absolute bottom-20 left-4 right-20 z-10 text-white drop-shadow-md">
+                    <h3 class="font-bold text-base mb-1 hover:underline cursor-pointer">@coder_life</h3>
+                    <p class="text-sm mb-2 line-clamp-2">Lập trình không khó, khó ở chỗ phải fix bug lúc 2h sáng 😭💻 #devlife #funny</p>
+                    <div class="flex items-center space-x-2 text-sm w-48 overflow-hidden">
+                        <i class="fa-solid fa-music text-xs"></i>
+                        <div class="w-full overflow-hidden relative">
+                            <span class="animate-marquee inline-block text-xs font-medium">Nhạc chill thư giãn - Lofi Remix</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Navigation App Bar -->
+        <div class="absolute bottom-0 w-full bg-black/95 backdrop-blur-sm border-t border-gray-800 z-30 pb-safe">
+            <div class="flex justify-between items-center px-6 py-3">
+                <button class="flex flex-col items-center text-white">
+                    <i class="fa-solid fa-house text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Trang chủ</span>
+                </button>
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-compass text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Khám phá</span>
+                </button>
+                
+                <!-- Create Button (Center) -->
+                <button class="flex items-center justify-center px-4 py-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 rounded-xl transform -translate-y-2 hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-plus text-white text-lg"></i>
+                </button>
+
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-inbox text-xl mb-1 relative">
+                        <span class="absolute -top-1 -right-1.5 bg-red-500 w-3.5 h-3.5 rounded-full border border-black text-[8px] flex items-center justify-center text-white">3</span>
+                    </i>
+                    <span class="text-[10px] font-medium">Hộp thư</span>
+                </button>
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-regular fa-user text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Hồ sơ</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const feed = document.getElementById('feed');
+            const videos = document.querySelectorAll('video');
+            const videoItems = document.querySelectorAll('.video-item');
+
+            // 1. Logic to play video when it scrolls into view, pause when out of view
+            const observerOptions = {
+                root: feed,
+                rootMargin: '0px',
+                threshold: 0.7 // Triggers when 70% of the video is visible
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target.querySelector('video');
+                    if (entry.isIntersecting) {
+                        // Fix: Handle Promise and ignore AbortError
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                if (e.name !== 'AbortError') console.log("Play error:", e);
+                            });
+                        }
+                    } else {
+                        video.pause();
+                        video.currentTime = 0; // Reset video to start
+                    }
+                });
+            }, observerOptions);
+
+            videoItems.forEach(item => {
+                observer.observe(item);
+                
+                // 2. Logic to Tap to Play/Pause
+                const video = item.querySelector('video');
+                const indicator = item.querySelector('[id^="playIndicator-"]');
+
+                item.addEventListener('click', (e) => {
+                    // Prevent pause if clicking on sidebar buttons
+                    if(e.target.closest('button')) return;
+
+                    if (video.paused) {
+                        // Fix: Handle Promise and ignore AbortError
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                if (e.name !== 'AbortError') console.log("Play error:", e);
+                            });
+                        }
+                        indicator.style.opacity = '0';
+                    } else {
+                        video.pause();
+                        indicator.style.opacity = '1';
+                    }
+                });
+
+                // Optional: Double tap to like
+                let lastTap = 0;
+                item.addEventListener('touchstart', (e) => {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+                    if (tapLength < 500 && tapLength > 0) {
+                        // Double tap detected
+                        const heartBtn = item.querySelector('.fa-heart').parentElement;
+                        toggleLike(heartBtn);
+                        e.preventDefault();
+                    }
+                    lastTap = currentTime;
+                });
+            });
+        });
+
+        // 3. Logic to toggle Like button
+        function toggleLike(btn) {
+            const icon = btn.querySelector('i');
+            const countSpan = btn.querySelector('span');
+            
+            icon.classList.toggle('fa-regular'); // Outline heart
+            icon.classList.toggle('fa-solid');   // Solid heart
+            icon.classList.toggle('heart-liked');
+
+            // Fake update number
+            let currentCount = parseFloat(countSpan.innerText.replace('K', ''));
+            if(icon.classList.contains('heart-liked')) {
+                countSpan.innerText = (currentCount + 0.1).toFixed(1) + 'K';
+            } else {
+                countSpan.innerText = (currentCount - 0.1).toFixed(1) + 'K';
+            }
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HelloWorld - Mạng xã hội Video ngắn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Scroll Snap Setup */
+        .video-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh; /* Fallback */
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            scroll-behavior: smooth;
+        }
+
+        .video-item {
+            scroll-snap-align: start;
+            height: 100vh;
+            height: 100dvh;
+            position: relative;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin-slow {
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 5s linear infinite;
+        }
+
+        /* Heart animation */
+        @keyframes heartBurst {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .heart-liked {
+            color: #ef4444 !important; /* Tailwind red-500 */
+            animation: heartBurst 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white font-sans antialiased flex justify-center items-center h-screen overflow-hidden">
+
+    <!-- App Container (Simulating Mobile Phone Screen on Desktop) -->
+    <div class="relative w-full h-full max-w-md bg-black shadow-2xl sm:border-x sm:border-gray-800 overflow-hidden">
+        
+        <!-- Top Navigation -->
+        <div class="absolute top-0 w-full z-20 px-4 pt-8 pb-4 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent pointer-events-none">
+            <div class="flex space-x-6 w-full justify-center text-sm font-semibold drop-shadow-md pointer-events-auto">
+                <button class="text-gray-300 opacity-80 hover:opacity-100 transition-opacity">Đang follow</button>
+                <div class="flex items-center space-x-1">
+                    <button class="text-white border-b-2 border-white pb-1">Dành cho bạn</button>
+                </div>
+            </div>
+            <i class="fa-solid fa-magnifying-glass absolute right-4 text-xl drop-shadow-md pointer-events-auto cursor-pointer hover:text-gray-300"></i>
+        </div>
+
+        <!-- Feed Container -->
+        <div class="video-container no-scrollbar" id="feed">
+            
+            <!-- Video 1 -->
+            <div class="video-item group">
+                <!-- Video Element -->
+                <video class="w-full h-full object-cover" loop muted playsinline autoplay>
+                    <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+                
+                <!-- Play/Pause Overlay Indicator -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 pointer-events-none" id="playIndicator-1">
+                    <i class="fa-solid fa-play text-6xl text-white/50 drop-shadow-lg"></i>
+                </div>
+
+                <!-- Right Sidebar Actions -->
+                <div class="absolute bottom-24 right-4 flex flex-col items-center space-y-5 z-10">
+                    <!-- Profile -->
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-full bg-white border-2 border-white overflow-hidden p-0.5">
+                            <img src="https://placehold.co/100x100/3b82f6/white?text=H" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <button class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border border-white">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
+                        </button>
+                    </div>
+
+                    <!-- Actions -->
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity" onclick="toggleLike(this)">
+                        <i class="fa-solid fa-heart text-3xl mb-1 transition-colors duration-300"></i>
+                        <span class="text-xs font-medium">12.5K</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-comment-dots text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">432</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-bookmark text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">1.2K</span>
+                    </button>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-share text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">Chia sẻ</span>
+                    </button>
+
+                    <!-- Audio Record -->
+                    <div class="w-10 h-10 mt-4 rounded-full bg-gray-800 p-2 spin-slow flex items-center justify-center border-2 border-gray-600">
+                        <div class="w-full h-full rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center">
+                            <i class="fa-solid fa-music text-[10px]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Info (Username, Caption, Music) -->
+                <div class="absolute bottom-20 left-4 right-20 z-10 text-white drop-shadow-md">
+                    <h3 class="font-bold text-base mb-1 hover:underline cursor-pointer">@nguyendinhhao</h3>
+                    <p class="text-sm mb-2 line-clamp-2">Chào mừng đến với HelloWorld! Đây là một bài test giao diện ứng dụng video ngắn mượt mà. 🔥 #helloworld #coding</p>
+                    <div class="flex items-center space-x-2 text-sm w-48 overflow-hidden">
+                        <i class="fa-solid fa-music text-xs"></i>
+                        <div class="w-full overflow-hidden relative">
+                            <span class="animate-marquee inline-block text-xs font-medium">Âm thanh gốc - @nguyendinhhao - Trending 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-item group">
+                <video class="w-full h-full object-cover" loop muted playsinline>
+                    <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" type="video/mp4">
+                </video>
+                
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 pointer-events-none" id="playIndicator-2">
+                    <i class="fa-solid fa-play text-6xl text-white/50 drop-shadow-lg"></i>
+                </div>
+
+                <!-- Right Sidebar Actions -->
+                <div class="absolute bottom-24 right-4 flex flex-col items-center space-y-5 z-10">
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-full bg-white border-2 border-white overflow-hidden p-0.5">
+                            <img src="https://placehold.co/100x100/10b981/white?text=A" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <button class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border border-white">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
+                        </button>
+                    </div>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity" onclick="toggleLike(this)">
+                        <i class="fa-solid fa-heart text-3xl mb-1 transition-colors duration-300"></i>
+                        <span class="text-xs font-medium">9.8K</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-comment-dots text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">120</span>
+                    </button>
+                    
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-bookmark text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">856</span>
+                    </button>
+
+                    <button class="flex flex-col items-center text-white drop-shadow-md hover:opacity-80 transition-opacity">
+                        <i class="fa-solid fa-share text-3xl mb-1"></i>
+                        <span class="text-xs font-medium">Chia sẻ</span>
+                    </button>
+
+                    <div class="w-10 h-10 mt-4 rounded-full bg-gray-800 p-2 spin-slow flex items-center justify-center border-2 border-gray-600">
+                        <div class="w-full h-full rounded-full bg-gradient-to-tr from-green-400 to-emerald-600 flex items-center justify-center">
+                            <i class="fa-solid fa-music text-[10px]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Info -->
+                <div class="absolute bottom-20 left-4 right-20 z-10 text-white drop-shadow-md">
+                    <h3 class="font-bold text-base mb-1 hover:underline cursor-pointer">@coder_life</h3>
+                    <p class="text-sm mb-2 line-clamp-2">Lập trình không khó, khó ở chỗ phải fix bug lúc 2h sáng 😭💻 #devlife #funny</p>
+                    <div class="flex items-center space-x-2 text-sm w-48 overflow-hidden">
+                        <i class="fa-solid fa-music text-xs"></i>
+                        <div class="w-full overflow-hidden relative">
+                            <span class="animate-marquee inline-block text-xs font-medium">Nhạc chill thư giãn - Lofi Remix</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Navigation App Bar -->
+        <div class="absolute bottom-0 w-full bg-black/95 backdrop-blur-sm border-t border-gray-800 z-30 pb-safe">
+            <div class="flex justify-between items-center px-6 py-3">
+                <button class="flex flex-col items-center text-white">
+                    <i class="fa-solid fa-house text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Trang chủ</span>
+                </button>
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-compass text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Khám phá</span>
+                </button>
+                
+                <!-- Create Button (Center) -->
+                <button class="flex items-center justify-center px-4 py-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 rounded-xl transform -translate-y-2 hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-plus text-white text-lg"></i>
+                </button>
+
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-inbox text-xl mb-1 relative">
+                        <span class="absolute -top-1 -right-1.5 bg-red-500 w-3.5 h-3.5 rounded-full border border-black text-[8px] flex items-center justify-center text-white">3</span>
+                    </i>
+                    <span class="text-[10px] font-medium">Hộp thư</span>
+                </button>
+                <button class="flex flex-col items-center text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-regular fa-user text-xl mb-1"></i>
+                    <span class="text-[10px] font-medium">Hồ sơ</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const feed = document.getElementById('feed');
+            const videos = document.querySelectorAll('video');
+            const videoItems = document.querySelectorAll('.video-item');
+
+            // 1. Logic to play video when it scrolls into view, pause when out of view
+            const observerOptions = {
+                root: feed,
+                rootMargin: '0px',
+                threshold: 0.7 // Triggers when 70% of the video is visible
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target.querySelector('video');
+                    if (entry.isIntersecting) {
+                        // Fix: Handle Promise and ignore AbortError
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                if (e.name !== 'AbortError') console.log("Play error:", e);
+                            });
+                        }
+                    } else {
+                        video.pause();
+                        video.currentTime = 0; // Reset video to start
+                    }
+                });
+            }, observerOptions);
+
+            videoItems.forEach(item => {
+                observer.observe(item);
+                
+                // 2. Logic to Tap to Play/Pause
+                const video = item.querySelector('video');
+                const indicator = item.querySelector('[id^="playIndicator-"]');
+
+                item.addEventListener('click', (e) => {
+                    // Prevent pause if clicking on sidebar buttons
+                    if(e.target.closest('button')) return;
+
+                    if (video.paused) {
+                        // Fix: Handle Promise and ignore AbortError
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                if (e.name !== 'AbortError') console.log("Play error:", e);
+                            });
+                        }
+                        indicator.style.opacity = '0';
+                    } else {
+                        video.pause();
+                        indicator.style.opacity = '1';
+                    }
+                });
+
+                // Optional: Double tap to like
+                let lastTap = 0;
+                item.addEventListener('touchstart', (e) => {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+                    if (tapLength < 500 && tapLength > 0) {
+                        // Double tap detected
+                        const heartBtn = item.querySelector('.fa-heart').parentElement;
+                        toggleLike(heartBtn);
+                        e.preventDefault();
+                    }
+                    lastTap = currentTime;
+                });
+            });
+        });
+
+        // 3. Logic to toggle Like button
+        function toggleLike(btn) {
+            const icon = btn.querySelector('i');
+            const countSpan = btn.querySelector('span');
+            
+            icon.classList.toggle('fa-regular'); // Outline heart
+            icon.classList.toggle('fa-solid');   // Solid heart
+            icon.classList.toggle('heart-liked');
+
+            // Fake update number
+            let currentCount = parseFloat(countSpan.innerText.replace('K', ''));
+            if(icon.classList.contains('heart-liked')) {
+                countSpan.innerText = (currentCount + 0.1).toFixed(1) + 'K';
+            } else {
+                countSpan.innerText = (currentCount - 0.1).toFixed(1) + 'K';
+            }
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .fade-in { animation: fadeIn 0.8s ease-in-out; }
+        .slide-up { animation: slideUp 0.6s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 50; left: 50%; bottom: 30px; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s, bottom 0.3s, visibility 0.3s; }
+        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm fixed w-full z-40 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <span class="text-2xl font-extrabold text-blue-600 tracking-tight">Hello<span class="text-gray-800">Eco</span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Chatbot Floating Button -->
+    <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg z-50 flex items-center justify-center hover:scale-105 transition-transform">
+        <i class="fa-solid fa-robot text-2xl"></i>
+    </button>
+
+    <!-- Chatbot Window -->
+    <div id="chatModal" class="hidden fixed bottom-24 right-6 w-80 bg-white rounded-2xl shadow-2xl z-50 overflow-hidden border border-gray-200">
+        <div class="bg-blue-600 p-4 flex justify-between text-white font-bold">
+            <span>HelloAssistant AI</span>
+            <button onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="chatMessages" class="h-64 overflow-y-auto p-4 bg-gray-50 text-sm space-y-3">
+            <div class="bg-white p-3 rounded-xl shadow-sm w-fit">Chào bạn! Mình có thể hỗ trợ kiến thức về hệ sinh thái của Hào. Nếu mình không biết, mình sẽ giúp bạn tìm trên Google!</div>
+        </div>
+        <div class="p-3 border-t flex gap-2">
+            <input id="chatInput" type="text" class="flex-1 border-none focus:ring-0 text-sm outline-none" placeholder="Hỏi mình đi...">
+            <button onclick="sendMessage()" class="text-blue-600"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        function toggleChat() { document.getElementById('chatModal').classList.toggle('hidden'); }
+        
+        const knowledgeBase = { 
+            "job": "HelloJob là nền tảng tìm việc.", 
+            "hào": "Nguyễn Đình Hào là founder, học sinh lớp 10 đam mê công nghệ.",
+            "hello": "Chào bạn, mình là trợ lý AI của Hello Ecosystem!"
+        };
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            if (!input.value.trim()) return;
+            
+            const msg = document.createElement('div'); msg.className = 'bg-blue-600 text-white p-3 rounded-xl ml-auto w-fit'; msg.textContent = input.value;
+            document.getElementById('chatMessages').appendChild(msg);
+            
+            const query = input.value;
+            input.value = '';
+            
+            setTimeout(() => {
+                const bot = document.createElement('div'); bot.className = 'bg-white p-3 rounded-xl w-fit shadow-sm';
+                let found = false;
+                
+                for (let k in knowledgeBase) {
+                    if (query.toLowerCase().includes(k)) {
+                        bot.textContent = knowledgeBase[k];
+                        found = true;
+                    }
+                }
+                
+                if (!found) {
+                    bot.innerHTML = `Mình chưa rõ lắm. Bạn muốn mình <a href="https://www.google.com/search?q=${encodeURIComponent(query)}" target="_blank" class="text-blue-600 underline">tìm trên Google giúp bạn không?</a>`;
+                }
+                
+                document.getElementById('chatMessages').appendChild(bot);
+                document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
 </html>

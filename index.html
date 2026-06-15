@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark">
+<html lang="vi" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,12 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Tối ưu hóa việc cuộn mượt mà và bù trừ khoảng cách của thanh Navigation fixed */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 4rem; /* Giúp khi cuộn xuống không bị thanh menu che mất tiêu đề */
+        }
+
         /* Custom animations */
         .fade-in { animation: fadeIn 0.8s ease-in-out; }
         .slide-up { animation: slideUp 0.6s ease-out forwards; opacity: 0; }
@@ -64,16 +70,13 @@
 </head>
 <body class="bg-gray-900 font-sans text-gray-200 antialiased overflow-x-hidden">
 
-    <!-- Navigation (ĐÃ XOÁ HOÀN TOÀN NÚT MẶT TRĂNG MẶT TRỜI XUẤT HIỆN TRONG IMAGE_91814B.PNG) -->
     <nav class="bg-gray-800/90 backdrop-blur-md fixed w-full z-40 top-0 border-b border-gray-700/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <!-- Vùng Logo (Đã dọn sạch phần nút bấm chỉnh theme bên cạnh) -->
                 <div class="flex-shrink-0 flex items-center">
-                    <span class="text-2xl font-extrabold text-blue-400 tracking-tight cursor-pointer" onclick="window.scrollTo(0,0)">Hello<span class="text-white">Eco</span></span>
+                    <span class="text-2xl font-extrabold text-blue-400 tracking-tight cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Hello<span class="text-white">Eco</span></span>
                 </div>
 
-                <!-- Menu điều hướng -->
                 <div class="hidden md:flex space-x-8">
                     <a href="#services" class="text-gray-300 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Dịch vụ</a>
                     <a href="#about" class="text-gray-300 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Về chúng tôi</a>
@@ -87,7 +90,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <div class="relative bg-gradient-to-br from-gray-800 to-gray-900 pt-32 pb-20 lg:pt-40 lg:pb-28 fade-in">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
@@ -105,7 +107,6 @@
         </div>
     </div>
 
-    <!-- Services Section -->
     <div id="services" class="py-20 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -116,7 +117,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- HelloJob -->
                 <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-100" onclick="showToast('HelloJob đang được phát triển. Cùng đón chờ nhé!')">
                     <div class="w-14 h-14 bg-blue-900/50 rounded-xl flex items-center justify-center mb-6 text-blue-400">
                         <i class="fa-solid fa-briefcase text-2xl"></i>
@@ -125,7 +125,6 @@
                     <p class="text-gray-400">Nền tảng tìm kiếm việc làm thông minh, kết nối ứng viên với hàng ngàn doanh nghiệp hàng đầu.</p>
                 </div>
 
-                <!-- HelloFood -->
                 <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-200" onclick="showToast('HelloFood đang được phát triển. Cùng đón chờ nhé!')">
                     <div class="w-14 h-14 bg-orange-900/50 rounded-xl flex items-center justify-center mb-6 text-orange-400">
                         <i class="fa-solid fa-burger text-2xl"></i>
@@ -134,7 +133,6 @@
                     <p class="text-gray-400">Giao đồ ăn tận nơi nhanh chóng với hàng ngàn lựa chọn nhà hàng và món ăn đa dạng.</p>
                 </div>
 
-                <!-- HelloPet -->
                 <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-300" onclick="showToast('HelloPet đang được phát triển. Cùng đón chờ nhé!')">
                     <div class="w-14 h-14 bg-pink-900/50 rounded-xl flex items-center justify-center mb-6 text-pink-400">
                         <i class="fa-solid fa-paw text-2xl"></i>
@@ -143,7 +141,6 @@
                     <p class="text-gray-400">Cộng đồng và dịch vụ chăm sóc toàn diện dành cho những người bạn bốn chân của bạn.</p>
                 </div>
 
-                <!-- HelloShop -->
                 <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-400" onclick="showToast('HelloShop đang được phát triển. Cùng đón chờ nhé!')">
                     <div class="w-14 h-14 bg-purple-900/50 rounded-xl flex items-center justify-center mb-6 text-purple-400">
                         <i class="fa-solid fa-cart-shopping text-2xl"></i>
@@ -152,7 +149,6 @@
                     <p class="text-gray-400">Trải nghiệm mua sắm thương mại điện tử tiện lợi, an toàn và ngập tràn ưu đãi mỗi ngày.</p>
                 </div>
 
-                <!-- HelloWorld -->
                 <div class="bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer slide-up delay-500" onclick="showToast('HelloWorld đang được phát triển. Cùng đón chờ nhé!')">
                     <div class="w-14 h-14 bg-red-900/50 rounded-xl flex items-center justify-center mb-6 text-red-400">
                         <i class="fa-solid fa-play text-2xl"></i>
@@ -161,7 +157,6 @@
                     <p class="text-gray-400">Mạng xã hội video ngắn, nơi bạn thoả sức sáng tạo và chia sẻ những khoảnh khắc thú vị.</p>
                 </div>
 
-                <!-- Coming Soon -->
                 <div class="bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-600 p-8 flex flex-col items-center justify-center text-center slide-up delay-500">
                     <div class="w-14 h-14 bg-gray-700 rounded-full flex items-center justify-center mb-4 text-gray-400">
                         <i class="fa-solid fa-plus text-xl"></i>
@@ -173,7 +168,6 @@
         </div>
     </div>
 
-    <!-- About Section -->
     <div id="about" class="py-24 bg-gray-800 border-t border-gray-700 text-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
@@ -217,7 +211,6 @@
         </div>
     </div>
 
-    <!-- Contact Section (ĐÃ XOÁ HOÀN TOÀN MỤC GỬI TIN NHẮN) -->
     <div id="contact" class="py-24 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12 slide-up delay-100">
@@ -227,7 +220,6 @@
                 </p>
             </div>
 
-            <!-- Khung thông tin liên hệ duy nhất được căn giữa cực đẹp -->
             <div class="max-w-xl mx-auto bg-blue-600 p-12 text-white relative rounded-3xl shadow-xl overflow-hidden slide-up delay-200">
                 <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-50 blur-3xl"></div>
                 <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-700 rounded-full opacity-50 blur-3xl"></div>
@@ -236,7 +228,6 @@
                     <h4 class="text-2xl font-bold mb-8 text-center border-b border-white/20 pb-4">Thông tin liên hệ</h4>
                     
                     <div class="space-y-6">
-                        <!-- Phone -->
                         <div class="flex items-center gap-4 group cursor-pointer">
                             <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
                                 <i class="fa-solid fa-phone text-lg"></i>
@@ -247,7 +238,6 @@
                             </div>
                         </div>
 
-                        <!-- Email -->
                         <div class="flex items-center gap-4 group cursor-pointer">
                             <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
                                 <i class="fa-solid fa-envelope text-lg"></i>
@@ -258,7 +248,6 @@
                             </div>
                         </div>
 
-                        <!-- Location -->
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0 border border-white/10">
                                 <i class="fa-solid fa-location-dot text-lg"></i>
@@ -269,7 +258,6 @@
                             </div>
                         </div>
 
-                        <!-- GitHub -->
                         <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group cursor-pointer">
                             <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
                                 <i class="fa-brands fa-github text-lg"></i>
@@ -285,7 +273,6 @@
         </div>
     </div>
 
-    <!-- Call to Action -->
     <div class="bg-blue-600">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
             <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
@@ -302,7 +289,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-gray-900 py-12 border-t border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
             <div class="flex justify-center items-center mb-4 md:mb-0">
@@ -319,12 +305,10 @@
         </div>
     </footer>
 
-    <!-- Chatbot Floating Button -->
     <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600/90 backdrop-blur-md text-white rounded-full shadow-lg z-50 flex items-center justify-center hover:scale-105 transition-transform border border-white/20">
         <i class="fa-solid fa-robot text-2xl"></i>
     </button>
 
-    <!-- Chatbot Modal -->
     <div id="chatModal" class="hidden fixed bottom-24 right-6 w-80 bg-gray-900/75 backdrop-blur-xl rounded-2xl shadow-2xl z-50 border border-gray-800/60 overflow-hidden">
         <div class="bg-blue-600/85 backdrop-blur-md p-4 flex justify-between text-white font-bold border-b border-white/10">
             <span>HelloAssistant</span>
@@ -338,10 +322,8 @@
         </div>
     </div>
 
-    <!-- Modern iOS Glassmorphic Toast Element -->
     <div id="toast" class="bg-gray-900/75 backdrop-blur-xl text-gray-100 text-sm font-medium px-5 py-4 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-gray-800/50 flex items-center gap-3">
-        <!-- Nội dung qua JS -->
-    </div>
+        </div>
 
     <script>
         // Custom iOS Glass Toast Notification

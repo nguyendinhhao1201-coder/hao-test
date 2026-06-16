@@ -66,7 +66,7 @@
             transform: translateX(-50%) translateY(0) scale(1);
         }
 
-        #chatModal { 
+        #chatModal, #registerModal { 
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
         }
     </style>
@@ -88,7 +88,8 @@
                 </div>
                 <div class="flex items-center space-x-4">
                     <button class="text-gray-300 hover:text-blue-400 font-medium text-sm hidden sm:block transition-colors">Đăng nhập</button>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg">Đăng ký</button>
+                    <!-- Sửa nút Đăng ký trên Menu thành mở bảng đăng ký -->
+                    <button onclick="toggleRegisterModal(true)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg">Đăng ký</button>
                 </div>
             </div>
         </div>
@@ -190,7 +191,7 @@
                         Xin chào, mình là <span class="text-blue-400">Nguyễn Đình Hào</span>
                     </h3>
                     <p class="mt-6 text-lg text-gray-300 leading-relaxed">
-                        Là một học sinh với niềm đam mê cháy bỏng dành cho công nghệ và lập trình, mình đã ấp ủ ý tưởng về <strong class="text-white">Hello Ecosystem</strong>. Nhận thấy sự phân mảnh của các dịch vụ trực tuyến hiện nay, mình mong muốn tạo ra một nền tảng thống nhất.
+                        Là một học sinh với niềm đamềm cháy bỏng dành cho công nghệ và lập trình, mình đã ấp ủ ý tưởng về <strong class="text-white">Hello Ecosystem</strong>. Nhận thấy sự phân mảnh của các dịch vụ trực tuyến hiện nay, mình mong muốn tạo ra một nền tảng thống nhất.
                     </p>
                     <p class="mt-4 text-lg text-gray-300 leading-relaxed">
                         Mục tiêu của dự án này không chỉ là thử thách bản thân trong việc học hỏi kiến thức lập trình mới (từ Web đến App), mà còn là khát vọng xây dựng một hệ sinh thái tiện ích, mang lại giá trị thực tế và trải nghiệm liền mạch cho cộng đồng.
@@ -224,7 +225,7 @@
         </div>
     </div>
 
-    <!-- Contact Section (Đã sửa đổi đưa hộp thông tin về trung tâm giống ảnh image_909c88.png) -->
+    <!-- Contact Section -->
     <div id="contact" class="py-24 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12 slide-up delay-100">
@@ -234,7 +235,7 @@
                 </p>
             </div>
 
-            <!-- Hộp thông tin liên hệ căn giữa hoàn hảo -->
+            <!-- Hộp thông tin liên hệ như ảnh image_4c65da.png -->
             <div class="max-w-xl mx-auto bg-blue-600 p-8 sm:p-10 text-white relative rounded-3xl shadow-xl overflow-hidden flex flex-col justify-between slide-up delay-200">
                 <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500 rounded-full opacity-40 blur-3xl"></div>
                 <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-700 rounded-full opacity-40 blur-3xl"></div>
@@ -276,7 +277,7 @@
                             </div>
                         </div>
 
-                        <!-- GitHub (Giữ nguyên hiển thị là Nguyễn Đình Hào) -->
+                        <!-- GitHub -->
                         <a href="https://github.com/nguyendinhhao1201-coder" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group cursor-pointer">
                             <div class="w-11 h-11 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:bg-white/20 transition-colors shrink-0 border border-white/10">
                                 <i class="fa-brands fa-github text-base"></i>
@@ -302,7 +303,8 @@
             </h2>
             <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                 <div class="inline-flex rounded-md shadow">
-                    <button class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors">
+                    <!-- Sửa nút Bắt đầu ngay thành mở bảng đăng ký -->
+                    <button onclick="toggleRegisterModal(true)" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors">
                         Bắt đầu ngay
                     </button>
                 </div>
@@ -326,6 +328,51 @@
             </div>
         </div>
     </footer>
+
+    <!-- Form Đăng ký hiện lên màn hình (Register Modal) -->
+    <div id="registerModal" class="hidden fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-gray-950/60 backdrop-blur-md">
+        <div class="relative bg-gray-800/90 border border-gray-700/60 w-full max-w-md p-6 rounded-3xl shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="registerBox">
+            
+            <!-- Nút đóng -->
+            <button onclick="toggleRegisterModal(false)" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-white bg-gray-700/40 hover:bg-gray-700/80 rounded-full transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Tiêu đề -->
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-extrabold text-white">Tạo tài khoản mới</h3>
+                <p class="text-sm text-gray-400 mt-1">Tham gia hệ sinh thái Hello Ecosystem ngay</p>
+            </div>
+
+            <!-- Các ô nhập liệu -->
+            <form onsubmit="handleRegisterSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">Tên của bạn</label>
+                    <input type="text" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="Nguyễn Văn A">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">Email của bạn</label>
+                    <input type="email" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="email@viethao.com">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">Mật khẩu</label>
+                    <input type="password" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="••••••••">
+                </div>
+
+                <div class="flex items-center gap-2 pt-2">
+                    <input type="checkbox" id="agree" required class="w-4 h-4 rounded border-gray-700 bg-gray-900 text-blue-600 focus:ring-0 focus:ring-offset-0">
+                    <label for="agree" class="text-xs text-gray-400">Tôi đồng ý với các Điều khoản và Chính sách</label>
+                </div>
+
+                <!-- Nút Submit gửi -->
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl text-sm transition-all shadow-md hover:shadow-lg mt-4">
+                    Đăng ký ngay
+                </button>
+            </form>
+        </div>
+    </div>
 
     <!-- Chatbot Floating Button -->
     <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600/90 backdrop-blur-md text-white rounded-full shadow-lg z-50 flex items-center justify-center hover:scale-105 transition-transform border border-white/20">
@@ -379,7 +426,39 @@
             lenis.scrollTo(0);
         }
 
-        // --- 2. CÁC LOGIC KHÁC ---
+        // --- 2. LOGIC ĐĂNG KÝ (REGISTER MODAL) ---
+        function toggleRegisterModal(show) {
+            const modal = document.getElementById('registerModal');
+            const box = document.getElementById('registerBox');
+            
+            if (show) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    box.classList.remove('scale-95', 'opacity-0');
+                    box.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            } else {
+                box.classList.remove('scale-100', 'opacity-100');
+                box.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function handleRegisterSubmit(event) {
+            event.preventDefault();
+            // Đóng bảng đăng ký
+            toggleRegisterModal(false);
+            // Hiện Toast thông báo thành công xịn mịn
+            setTimeout(() => {
+                showToast("Đăng ký tài khoản thành công! Chào mừng bạn đến với hệ sinh thái.");
+            }, 400);
+            // Reset các ô nhập trong form
+            event.target.reset();
+        }
+
+        // --- 3. CÁC LOGIC KHÁC ---
         let toastTimeout;
         function showToast(message) {
             const toast = document.getElementById("toast");
